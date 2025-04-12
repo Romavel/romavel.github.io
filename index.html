@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baza Pytań</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+            margin: 0;
+        }
+
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #f4f4f9;
+        }
+
+        h1 {
+            text-align: center;
+            color: #4a4a8a;
+            margin-top: 80px;
+        }
+
+        h2 {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode h2 {
+            background-color: #2e2e2e;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        li.correct {
+            color: green;
+            background-color: #e8f5e9;
+            border: 1px solid green;
+            position: relative;
+        }
+
+        li.correct::before {
+            content: "✓";
+            color: green;
+            margin-right: 8px;
+        }
+
+        li.incorrect {
+            color: red;
+            background-color: #ffebee;
+            border: 1px solid red;
+            position: relative;
+        }
+
+        li.incorrect::before {
+            content: "✗";
+            color: red;
+            margin-right: 8px;
+        }
+
+        .dark-mode li.correct {
+            background-color: #2e3b2e;
+            color: #8bc34a;
+            border-color: #8bc34a;
+        }
+
+        .dark-mode li.correct::before {
+            color: #8bc34a;
+        }
+
+        .dark-mode li.incorrect {
+            background-color: #3b2e2e;
+            color: #e57373;
+            border-color: #e57373;
+        }
+
+        .dark-mode li.incorrect::before {
+            color: #e57373;
+        }
+
+        /* Górne menu */
+        .top-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 1000;
+            transition: background-color 0.3s, color 0.3s;
+            flex-wrap: wrap;
+        }
+
+        .dark-mode .top-menu {
+            background-color: #2e2e2e;
+        }
+
+        .top-menu button,
+        .top-menu input {
+            padding: 8px 16px;
+            border: none;
+            background-color: #4a4a8a;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .top-menu button:hover {
+            background-color: #37376a;
+        }
+
+        .top-menu button.active {
+            background-color: #222255;
+        }
+
+        .top-menu input {
+            background-color: #fff;
+            color: #333;
+            border: 1px solid #ccc;
+        }
+
+        .dark-mode .top-menu input {
+            background-color: #444;
+            color: #eee;
+            border-color: #666;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="top-menu">
+        <button id="correctBtn" onclick="toggleCorrectAnswers()">Pokaż tylko poprawne</button>
+        <button id="darkModeBtn" onclick="toggleDarkMode()">Tryb ciemny 🌙</button>
+        <button onclick="downloadPDF()">Eksportuj do PDF 📄</button>
+        <input type="text" id="searchInput" placeholder="Szukaj pytania..." oninput="filterQuestions()" />
+    </div>
+
+    <h1>Baza Pytań i Odpowiedzi</h1>
+
+    <div id="questions">
+        <!-- Wszystkie pytania w kontenerze dla filtrowania -->
+        <h2>Pytanie 1: Why prepared statement helps to protect against SQL Injection attacks?</h2>
+        <ul>
+            <li class="incorrect">Contasins mechanisms of data filtering</li>
+            <li class="correct">Sends query template and data in separate packages</li>
+            <li class="incorrect">It implements black lists</li>
+            <li class="incorrect">It removes SQL tokens from data</li>
+        </ul>
+
+        <h2>Pytanie 2: Should each microservice control user privileges?</h2>
+        <ul>
+            <li class="incorrect">Prawda</li>
+            <li class="correct">Fałsz</li>
+        </ul>
+
+        <h2>Pytanie 3: Is a random enumeration of resources a method of protection against unauthorized access to data?
+        </h2>
+        <ul>
+            <li class="incorrect">Prawda</li>
+            <li class="correct">Fałsz</li>
+        </ul>
+
+        <h2>Pytanie 4: In XSS attacks you can inject:</h2>
+        <ul>
+            <li class="correct">Javascript</li>
+            <li class="correct">HTML</li>
+            <li class="incorrect">SQL</li>
+            <li class="incorrect">PHP</li>
+        </ul>
+
+        <h2>Pytanie 5: Let's assume that login form is susceptible to SQLI attack. Can it be possible to verify what
+            version of database is used in the application while attacking this form with SQLI? After login no data is
+            displayed.</h2>
+        <ul>
+            <li class="correct">Prawda</li>
+            <li class="incorrect">Fałsz</li>
+        </ul>
+
+        <h2>Pytanie 6: Is it possible to create a trap to catch a request sent with POST method and modify request and
+            an answer to this request?</h2>
+        <ul>
+            <li class="correct">Prawda</li>
+            <li class="incorrect">Fałsz</li>
+        </ul>
+
+        <h2>Pytanie 7: Which expression is a tautology?</h2>
+        <ul>
+            <li class="correct">‘7’ between ‘4’ and ‘9’</li>
+            <li class="correct">7&gt;5</li>
+            <li class="incorrect">curdate()=floor(2.3)</li>
+            <li class="correct">1=1</li>
+            <li class="incorrect">'taut'</li>
+        </ul>
+
+        <h2>Pytanie 8: Is it possible to overhear a request sent by POST method?</h2>
+        <ul>
+            <li class="correct">Prawda</li>
+            <li class="incorrect">Fałsz</li>
+        </ul>
+
+        <h2>Pytanie 9: Data from forms can be sent with "GET" or "POST" method. Does the "POST" method ensure higher
+            level of security?</h2>
+        <ul>
+            <li class="incorrect">Prawda</li>
+            <li class="correct">Fałsz</li>
+        </ul>
+
+        <h2>Pytanie 10: We have bcrypt hashing function having 14 rounds - its execution time is over 1 second. We are
+            going to use this function to keep user passwords hashes in heavy duty system (about 100 logins per minute).
+            Will we obtain a good level of security?</h2>
+        <ul>
+            <li class="incorrect">Prawda</li>
+            <li class="correct">Fałsz</li>
+        </ul>
+
+        <h2>Pytanie 11: Which type of attack is the best choice to steal session identifier?</h2>
+        <ul>
+            <li class="incorrect">Brute force</li>
+            <li class="correct">XSS</li>
+            <li class="incorrect">SQL Injection</li>
+            <li class="incorrect">Social engineering attack</li>
+        </ul>
+
+        <h2>Pytanie 12: We are processing user passwords as hashes. Should we filter passwords taken from login form?
+        </h2>
+        <ul>
+            <li class="incorrect">Prawda</li>
+            <li class="correct">Fałsz</li>
+        </ul>
+
+        <h2>Pytanie 13: Which of the below are the types of SQL Injection attacks?</h2>
+        <ul>
+            <li class="incorrect">Cross-band</li>
+            <li class="incorrect">Direct</li>
+            <li class="correct">Out-of-band</li>
+            <li class="correct">Inference</li>
+            <li class="correct">In-band</li>
+        </ul>
+
+        <h2>Pytanie 14: Data filtering is a technique that can help to protect against:</h2>
+        <ul>
+            <li class="incorrect">Brute force attacks</li>
+            <li class="incorrect">Unauthorised access to functions</li>
+            <li class="incorrect">Unauthorised access to data</li>
+            <li class="correct">SQL Injection attacks</li>
+            <li class="correct">XSS attacks</li>
+        </ul>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        let showOnlyCorrect = false;
+
+        function toggleCorrectAnswers() {
+            showOnlyCorrect = !showOnlyCorrect;
+            const incorrectAnswers = document.querySelectorAll('.incorrect');
+            incorrectAnswers.forEach(answer => {
+                answer.style.display = showOnlyCorrect ? 'none' : 'list-item';
+            });
+            document.getElementById('correctBtn').classList.toggle('active', showOnlyCorrect);
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.getElementById('darkModeBtn').classList.toggle('active');
+        }
+
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.text("Baza Pytań i Odpowiedzi", 10, 10);
+            let y = 20;
+            document.querySelectorAll('#questions h2, #questions li').forEach(el => {
+                if (el.offsetParent !== null) { // tylko widoczne
+                    doc.text(el.textContent.trim(), 10, y);
+                    y += 7;
+                    if (y > 280) {
+                        doc.addPage();
+                        y = 10;
+                    }
+                }
+            });
+            doc.save('baza_pytan.pdf');
+        }
+
+        function filterQuestions() {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const questions = document.querySelectorAll('#questions h2');
+
+            questions.forEach(h2 => {
+                const questionText = h2.textContent.toLowerCase();
+                const ul = h2.nextElementSibling;
+                const matches = questionText.includes(input);
+                h2.style.display = matches ? '' : 'none';
+                ul.style.display = matches ? '' : 'none';
+            });
+        }
+    </script>
+
+</body>
+
+</html>
