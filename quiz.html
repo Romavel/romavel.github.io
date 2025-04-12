@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            padding: 20px;
+            line-height: 1.6;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode {
+            background-color: #1e1e1e;
+            color: #f4f4f9;
+        }
+
+        .top-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 1000;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dark-mode .top-menu {
+            background-color: #2e2e2e;
+        }
+
+        .top-menu a,
+        .top-menu button {
+            padding: 8px 16px;
+            border: none;
+            background-color: #4a4a8a;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .top-menu button:hover,
+        .top-menu a:hover {
+            background-color: #37376a;
+        }
+
+        .setup {
+            margin-top: 80px;
+            margin-bottom: 20px;
+        }
+
+        .question {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .question {
+            background-color: #2e2e2e;
+        }
+
+        .answers label {
+            display: block;
+            margin: 8px 0;
+            cursor: pointer;
+        }
+
+        .check-button,
+        .reset-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #4a4a8a;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .correct {
+            color: green;
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .question:first-of-type {
+            margin-top: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="top-menu">
+        <a href="index.html">Odpowiedzi</a>
+        <button onclick="toggleDarkMode()">Tryb ciemny 🌙</button>
+    </div>
+
+    <div class="setup">
+        <label for="questionCount">Ile pytań chcesz rozwiązać?(maks 14)</label>
+        <input type="number" id="questionCount" min="1" value="5">
+        <button onclick="startQuiz()">Rozpocznij quiz</button>
+    </div>
+
+    <div id="quiz"></div>
+
+    <button class="check-button" onclick="checkAnswers()" style="display:none;">Sprawdź odpowiedzi</button>
+    <button class="reset-button" onclick="resetQuiz()" style="display:none;">Wypełnij ponownie 🔄</button>
+
+    <div id="result"></div>
+
+    <script>
+        const allQuestions = [
+            {
+                question: "Why prepared statement helps to protect against SQL Injection attacks?",
+                answers: [
+                    { text: "Contasins mechanisms of data filtering", correct: false },
+                    { text: "Sends query template and data in separate packages", correct: true },
+                    { text: "It implements black lists", correct: false },
+                    { text: "It removes SQL tokens from data", correct: false },
+                ]
+            },
+            {
+                question: "Should each microservice control user privileges?",
+                answers: [
+                    { text: "Prawda", correct: false },
+                    { text: "Fałsz", correct: true },
+                ]
+            },
+            {
+                question: "Is a random enumeration of resources a method of protection against unauthorized access to data?",
+                answers: [
+                    { text: "Prawda", correct: false },
+                    { text: "Fałsz", correct: true },
+                ]
+            },
+            {
+                question: "In XSS attacks you can inject:",
+                answers: [
+                    { text: "Javascript", correct: true },
+                    { text: "HTML", correct: true },
+                    { text: "SQL", correct: false },
+                    { text: "PHP", correct: false },
+                ]
+            },
+            {
+                question: "Let's assume that login form is susceptible to SQLI attack. Can it be possible to verify what version of database is used?",
+                answers: [
+                    { text: "Prawda", correct: true },
+                    { text: "Fałsz", correct: false },
+                ]
+            },
+            {
+                question: "Which expression is a tautology?",
+                answers: [
+                    { text: "‘7’ between ‘4’ and ‘9’", correct: true },
+                    { text: "7>5", correct: true },
+                    { text: "curdate()=floor(2.3)", correct: false },
+                    { text: "1=1", correct: true },
+                    { text: "'taut'", correct: false },
+                ]
+            },
+            {
+                question: "Data filtering is a technique that can help to protect against:",
+                answers: [
+                    { text: "Brute force attacks", correct: false },
+                    { text: "Unauthorised access to functions", correct: false },
+                    { text: "Unauthorised access to data", correct: false },
+                    { text: "SQL Injection attacks", correct: true },
+                    { text: "XSS attacks", correct: true },
+                ]
+            },
+            {
+                question: "Which of the below are the types of SQL Injection attacks?",
+                answers: [
+                    { text: "Cross-band", correct: false },
+                    { text: "Direct", correct: false },
+                    { text: "Out-of-band", correct: true },
+                    { text: "Inference", correct: true },
+                    { text: "In-band", correct: true },
+                ]
+            },
+            {
+                question: "Data from forms can be sent with 'GET' or 'POST' method. Does the 'POST' method ensure higher level of security?",
+                answers: [
+                    { text: "Prawda", correct: false },
+                    { text: "Fałsz", correct: true },
+                ]
+            },
+            {
+                question: "Which type of attack is the best choice to steal session identifier?",
+                answers: [
+                    { text: "Brute force", correct: false },
+                    { text: "XSS", correct: true },
+                    { text: "SQL Injection", correct: false },
+                    { text: "Social engineering attack", correct: false },
+                ]
+            },
+            // Dodaj kolejne pytania tutaj
+        ];
+
+        let selectedQuestions = [];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function startQuiz() {
+            const count = parseInt(document.getElementById('questionCount').value);
+            selectedQuestions = [...allQuestions];
+            shuffle(selectedQuestions);
+            selectedQuestions = selectedQuestions.slice(0, Math.min(count, allQuestions.length));
+
+            document.querySelector('.check-button').style.display = 'inline-block';
+            document.querySelector('.reset-button').style.display = 'inline-block';
+            document.querySelector('.setup').style.display = 'none';
+            generateQuiz();
+        }
+
+        function generateQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = '';
+            document.getElementById('result').innerHTML = '';
+
+            selectedQuestions.forEach((q, index) => {
+                shuffle(q.answers);
+                const correctCount = q.answers.filter(a => a.correct).length;
+                const inputType = correctCount > 1 ? 'checkbox' : 'radio';
+
+                const questionDiv = document.createElement('div');
+                questionDiv.classList.add('question');
+                questionDiv.innerHTML = `<strong id="q${index}"> ${index + 1}. ${q.question}</strong>`;
+
+                const answersDiv = document.createElement('div');
+                answersDiv.classList.add('answers');
+
+                q.answers.forEach((a, answerIndex) => {
+                    answersDiv.innerHTML += `
+            <label>
+              <input type="${inputType}" name="question${index}${inputType === 'checkbox' ? '[]' : ''}" value="${a.correct}"> ${a.text}
+            </label>
+          `;
+                });
+
+                questionDiv.appendChild(answersDiv);
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function checkAnswers() {
+            const answers = document.querySelectorAll('.answers');
+            let totalScore = 0;
+
+            answers.forEach((answerBlock, index) => {
+                const inputs = answerBlock.querySelectorAll('input');
+                let correctAnswers = 0;
+                let correctSelected = 0;
+                let wrongSelected = 0;
+
+                inputs.forEach(input => {
+                    if (input.value === 'true') correctAnswers++;
+                });
+
+                inputs.forEach(input => {
+                    const label = input.parentElement;
+                    if (input.value === 'true') label.classList.add('correct');
+                    if (input.checked && input.value === 'true') correctSelected++;
+                    if (input.checked && input.value === 'false') {
+                        label.classList.add('incorrect');
+                        wrongSelected++;
+                    }
+                });
+
+                let questionScore = (correctSelected / correctAnswers) - (wrongSelected / correctAnswers);
+                questionScore = Math.max(0, questionScore);
+                totalScore += questionScore;
+
+                // Dodajemy punkty przy pytaniu
+                const questionLabel = document.getElementById(`q${index}`);
+                questionLabel.innerHTML += ` [${questionScore.toFixed(2)} pkt]`;
+            });
+
+            document.getElementById('result').innerHTML = `Twój wynik: ${totalScore.toFixed(2)} / ${selectedQuestions.length}`;
+            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function resetQuiz() {
+            document.querySelector('.setup').style.display = 'block';
+            document.querySelector('.check-button').style.display = 'none';
+            document.querySelector('.reset-button').style.display = 'none';
+            document.getElementById('quiz').innerHTML = '';
+            document.getElementById('result').innerHTML = '';
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+    </script>
+</body>
+
+</html>
