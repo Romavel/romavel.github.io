@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+
     <title>Baza Pytań</title>
     <style>
         body {
@@ -157,6 +159,9 @@
     <div class="top-menu">
         <button id="correctBtn" onclick="toggleCorrectAnswers()">Pokaż tylko poprawne</button>
         <button id="darkModeBtn" onclick="toggleDarkMode()">Tryb ciemny 🌙</button>
+        <a href="quiz.html">
+            <button>Quiz 🎯</button>
+        </a>
         <input type="text" id="searchInput" placeholder="Szukaj pytania..." oninput="filterQuestions()" />
     </div>
 
@@ -294,20 +299,51 @@
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
+
+            // Ustaw czcionkę
+            doc.setFont("helvetica"); // Helvetica obsługuje polskie znaki w jsPDF
+            doc.setFontSize(12);
+
             doc.text("Baza Pytań i Odpowiedzi", 10, 10);
             let y = 20;
+
             document.querySelectorAll('#questions h2, #questions li').forEach(el => {
-                if (el.offsetParent !== null) { // tylko widoczne
-                    doc.text(el.textContent.trim(), 10, y);
+                if (el.offsetParent !== null) { // tylko widoczne elementy
+                    let text = el.textContent.trim();
+
+                    // Zamień typowe polskie znaki na zgodne w PDF
+                    text = text.replace(/ą/g, "ą")
+                        .replace(/ć/g, "ć")
+                        .replace(/ę/g, "ę")
+                        .replace(/ł/g, "ł")
+                        .replace(/ń/g, "ń")
+                        .replace(/ó/g, "ó")
+                        .replace(/ś/g, "ś")
+                        .replace(/ź/g, "ź")
+                        .replace(/ż/g, "ż")
+                        .replace(/Ą/g, "Ą")
+                        .replace(/Ć/g, "Ć")
+                        .replace(/Ę/g, "Ę")
+                        .replace(/Ł/g, "Ł")
+                        .replace(/Ń/g, "Ń")
+                        .replace(/Ó/g, "Ó")
+                        .replace(/Ś/g, "Ś")
+                        .replace(/Ź/g, "Ź")
+                        .replace(/Ż/g, "Ż");
+
+                    doc.text(text, 10, y);
                     y += 7;
+
                     if (y > 280) {
                         doc.addPage();
                         y = 10;
                     }
                 }
             });
+
             doc.save('baza_pytan.pdf');
         }
+
 
         function filterQuestions() {
             const input = document.getElementById('searchInput').value.toLowerCase();
