@@ -1,404 +1,1257 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+      rel="stylesheet"
+    />
 
     <title>Baza Pytań</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            padding: 20px;
-            line-height: 1.6;
-            transition: background-color 0.3s, color 0.3s;
-            margin: 0;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        padding: 20px;
+        line-height: 1.6;
+        transition: background-color 0.3s, color 0.3s;
+        margin: 0;
+      }
 
-        .dark-mode {
-            background-color: #1e1e1e;
-            color: #f4f4f9;
-        }
+      .dark-mode {
+        background-color: #1e1e1e;
+        color: #f4f4f9;
+      }
 
-        h1 {
-            text-align: center;
-            color: #4a4a8a;
-            margin-top: 80px;
-        }
+      h1 {
+        text-align: center;
+        color: #4a4a8a;
+        margin-top: 80px;
+      }
 
-        h2 {
-            background-color: #ffffff;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-top: 30px;
-            transition: background-color 0.3s, color 0.3s;
-        }
+      h2 {
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-top: 30px;
+        transition: background-color 0.3s, color 0.3s;
+      }
 
-        .dark-mode h2 {
-            background-color: #2e2e2e;
-        }
+      .dark-mode h2 {
+        background-color: #2e2e2e;
+      }
 
-        ul {
-            list-style: none;
-            padding-left: 20px;
-        }
+      ul {
+        list-style: none;
+        padding-left: 20px;
+      }
 
-        li {
-            margin: 8px 0;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: background-color 0.3s, color 0.3s;
-        }
+      li {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+      }
 
-        li.correct {
-            color: green;
-            background-color: #e8f5e9;
-            border: 1px solid green;
-            position: relative;
-        }
+      li.correct {
+        color: green;
+        background-color: #e8f5e9;
+        border: 1px solid green;
+        position: relative;
+      }
 
-        li.correct::before {
-            content: "✓";
-            color: green;
-            margin-right: 8px;
-        }
+      li.correct::before {
+        content: "✓";
+        color: green;
+        margin-right: 8px;
+      }
 
-        li.incorrect {
-            color: red;
-            background-color: #ffebee;
-            border: 1px solid red;
-            position: relative;
-        }
+      li.incorrect {
+        color: red;
+        background-color: #ffebee;
+        border: 1px solid red;
+        position: relative;
+      }
 
-        li.incorrect::before {
-            content: "✗";
-            color: red;
-            margin-right: 8px;
-        }
+      li.incorrect::before {
+        content: "✗";
+        color: red;
+        margin-right: 8px;
+      }
 
-        .dark-mode li.correct {
-            background-color: #2e3b2e;
-            color: #8bc34a;
-            border-color: #8bc34a;
-        }
+      .dark-mode li.correct {
+        background-color: #2e3b2e;
+        color: #8bc34a;
+        border-color: #8bc34a;
+      }
 
-        .dark-mode li.correct::before {
-            color: #8bc34a;
-        }
+      .dark-mode li.correct::before {
+        color: #8bc34a;
+      }
 
-        .dark-mode li.incorrect {
-            background-color: #3b2e2e;
-            color: #e57373;
-            border-color: #e57373;
-        }
+      .dark-mode li.incorrect {
+        background-color: #3b2e2e;
+        color: #e57373;
+        border-color: #e57373;
+      }
 
-        .dark-mode li.incorrect::before {
-            color: #e57373;
-        }
+      .dark-mode li.incorrect::before {
+        color: #e57373;
+      }
 
-        /* Górne menu */
-        .top-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            z-index: 1000;
-            transition: background-color 0.3s, color 0.3s;
-            flex-wrap: wrap;
-        }
+      /* Górne menu */
+      .top-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        z-index: 1000;
+        transition: background-color 0.3s, color 0.3s;
+        flex-wrap: wrap;
+      }
 
-        .dark-mode .top-menu {
-            background-color: #2e2e2e;
-        }
+      .dark-mode .top-menu {
+        background-color: #2e2e2e;
+      }
 
-        .top-menu button,
-        .top-menu input {
-            padding: 8px 16px;
-            border: none;
-            background-color: #4a4a8a;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
+      .top-menu button,
+      .top-menu input {
+        padding: 8px 16px;
+        border: none;
+        background-color: #4a4a8a;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
 
-        .top-menu button:hover {
-            background-color: #37376a;
-        }
+      .top-menu button:hover {
+        background-color: #37376a;
+      }
 
-        .top-menu button.active {
-            background-color: #222255;
-        }
+      .top-menu button.active {
+        background-color: #222255;
+      }
 
-        .top-menu input {
-            background-color: #fff;
-            color: #333;
-            border: 1px solid #ccc;
-        }
+      .top-menu input {
+        background-color: #fff;
+        color: #333;
+        border: 1px solid #ccc;
+      }
 
-        .dark-mode .top-menu input {
-            background-color: #444;
-            color: #eee;
-            border-color: #666;
-        }
+      .dark-mode .top-menu input {
+        background-color: #444;
+        color: #eee;
+        border-color: #666;
+      }
     </style>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <div class="top-menu">
-        <button id="correctBtn" onclick="toggleCorrectAnswers()">Pokaż tylko poprawne</button>
-        <button id="darkModeBtn" onclick="toggleDarkMode()">Tryb ciemny 🌙</button>
-        <a href="quiz.html">
-            <button>Quiz 🎯</button>
-        </a>
-        <input type="text" id="searchInput" placeholder="Szukaj pytania..." oninput="filterQuestions()" />
+      <button id="correctBtn" onclick="toggleCorrectAnswers()">
+        Pokaż tylko poprawne
+      </button>
+      <button id="darkModeBtn" onclick="toggleDarkMode()">
+        Tryb ciemny 🌙
+      </button>
+      <a href="quiz.html">
+        <button>Quiz 🎯</button>
+      </a>
+      <input
+        type="text"
+        id="searchInput"
+        placeholder="Szukaj pytania..."
+        oninput="filterQuestions()"
+      />
     </div>
 
     <h1>Baza Pytań i Odpowiedzi</h1>
 
     <div id="questions">
-        <!-- Wszystkie pytania w kontenerze dla filtrowania -->
-        <h2>Pytanie 1: Why prepared statement helps to protect against SQL Injection attacks?</h2>
-        <ul>
-            <li class="incorrect">Contasins mechanisms of data filtering</li>
-            <li class="correct">Sends query template and data in separate packages</li>
-            <li class="incorrect">It implements black lists</li>
-            <li class="incorrect">It removes SQL tokens from data</li>
-        </ul>
+      <!-- Wszystkie pytania w kontenerze dla filtrowania -->
+      <h2>
+        Pytanie 1: Why prepared statement helps to protect against SQL Injection
+        attacks?
+      </h2>
+      <ul>
+        <li class="incorrect">Contains mechanisms of data filtering</li>
+        <li class="correct">
+          Sends query template and data in separate packages
+        </li>
+        <li class="incorrect">It implements black lists</li>
+        <li class="incorrect">It removes SQL tokens from data</li>
+      </ul>
 
-        <h2>Pytanie 2: Should each microservice control user privileges?</h2>
-        <ul>
-            <li class="incorrect">Prawda</li>
-            <li class="correct">Fałsz</li>
-        </ul>
+      <h2>Pytanie 2: Should each microservice control user privileges?</h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
 
-        <h2>Pytanie 3: Is a random enumeration of resources a method of protection against unauthorized access to data?
-        </h2>
-        <ul>
-            <li class="incorrect">Prawda</li>
-            <li class="correct">Fałsz</li>
-        </ul>
+      <h2>
+        Pytanie 3: Is a random enumeration of resources a method of protection
+        against unauthorized access to data?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
 
-        <h2>Pytanie 4: In XSS attacks you can inject:</h2>
-        <ul>
-            <li class="correct">Javascript</li>
-            <li class="correct">HTML</li>
-            <li class="incorrect">SQL</li>
-            <li class="incorrect">PHP</li>
-        </ul>
+      <h2>Pytanie 4: In XSS attacks you can inject:</h2>
+      <ul>
+        <li class="correct">Javascript</li>
+        <li class="correct">HTML</li>
+        <li class="incorrect">SQL</li>
+        <li class="incorrect">PHP</li>
+      </ul>
 
-        <h2>Pytanie 5: Let's assume that login form is susceptible to SQLI attack. Can it be possible to verify what
-            version of database is used in the application while attacking this form with SQLI? After login no data is
-            displayed.</h2>
-        <ul>
-            <li class="correct">Prawda</li>
-            <li class="incorrect">Fałsz</li>
-        </ul>
+      <h2>
+        Pytanie 5: Is it possible to create a trap to catch a request sent with
+        POST method and modify request and an answer to this request?
+      </h2>
+      <ul>
+        <li class="correct">True</li>
+        <li class="incorrect">False</li>
+      </ul>
 
-        <h2>Pytanie 6: Is it possible to create a trap to catch a request sent with POST method and modify request and
-            an answer to this request?</h2>
-        <ul>
-            <li class="correct">Prawda</li>
-            <li class="incorrect">Fałsz</li>
-        </ul>
+      <h2>
+        Pytanie 6: Is it possible to overhear a request sent by POST method?
+      </h2>
+      <ul>
+        <li class="correct">True</li>
+        <li class="incorrect">False</li>
+      </ul>
 
-        <h2>Pytanie 7: Which expression is a tautology?</h2>
-        <ul>
-            <li class="correct">‘7’ between ‘4’ and ‘9’</li>
-            <li class="correct">7&gt;5</li>
-            <li class="incorrect">curdate()=floor(2.3)</li>
-            <li class="correct">1=1</li>
-            <li class="incorrect">'taut'</li>
-        </ul>
+      <h2>
+        Pytanie 7: We have bcrypt hashing function having 14 rounds - its
+        execution time is over 1 second. We are going to use this function to
+        keep user passwords hashes in heavy duty system (about 100 logins per
+        minute). Will we obtain a good level of security?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
 
-        <h2>Pytanie 8: Is it possible to overhear a request sent by POST method?</h2>
-        <ul>
-            <li class="correct">Prawda</li>
-            <li class="incorrect">Fałsz</li>
-        </ul>
+      <h2>
+        Pytanie 8: We are processing user passwords as hashes. Should we filter
+        passwords taken from login form?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
 
-        <h2>Pytanie 9: Data from forms can be sent with "GET" or "POST" method. Does the "POST" method ensure higher
-            level of security?</h2>
-        <ul>
-            <li class="incorrect">Prawda</li>
-            <li class="correct">Fałsz</li>
-        </ul>
+      <h2>
+        Pytanie 9: Let's assume that login form is susceptible to SQLI attack.
+        Can it be possible to verify what version of database is used?
+      </h2>
+      <ul>
+        <li class="correct">True</li>
+        <li class="incorrect">False</li>
+      </ul>
 
-        <h2>Pytanie 10: We have bcrypt hashing function having 14 rounds - its execution time is over 1 second. We are
-            going to use this function to keep user passwords hashes in heavy duty system (about 100 logins per minute).
-            Will we obtain a good level of security?</h2>
-        <ul>
-            <li class="incorrect">Prawda</li>
-            <li class="correct">Fałsz</li>
-        </ul>
+      <h2>Pytanie 10: Which expression is a tautology?</h2>
+      <ul>
+        <li class="correct">'7' between '4' and '9'</li>
+        <li class="correct">7>5</li>
+        <li class="incorrect">curdate()=floor(2.3)</li>
+        <li class="correct">1=1</li>
+        <li class="incorrect">'taut'</li>
+      </ul>
 
-        <h2>Pytanie 11: Which type of attack is the best choice to steal session identifier?</h2>
-        <ul>
-            <li class="incorrect">Brute force</li>
-            <li class="correct">XSS</li>
-            <li class="incorrect">SQL Injection</li>
-            <li class="incorrect">Social engineering attack</li>
-        </ul>
+      <h2>
+        Pytanie 11: Data filtering is a technique that can help to protect
+        against:
+      </h2>
+      <ul>
+        <li class="incorrect">Brute force attacks</li>
+        <li class="incorrect">Unauthorised access to functions</li>
+        <li class="incorrect">Unauthorised access to data</li>
+        <li class="correct">SQL Injection attacks</li>
+        <li class="correct">XSS attacks</li>
+      </ul>
 
-        <h2>Pytanie 12: We are processing user passwords as hashes. Should we filter passwords taken from login form?
-        </h2>
-        <ul>
-            <li class="incorrect">Prawda</li>
-            <li class="correct">Fałsz</li>
-        </ul>
+      <h2>
+        Pytanie 12: Which of the below are the types of SQL Injection attacks?
+      </h2>
+      <ul>
+        <li class="incorrect">Cross-band</li>
+        <li class="incorrect">Direct</li>
+        <li class="correct">Out-of-band</li>
+        <li class="correct">Inference</li>
+        <li class="correct">In-band</li>
+      </ul>
 
-        <h2>Pytanie 13: Which of the below are the types of SQL Injection attacks?</h2>
-        <ul>
-            <li class="incorrect">Cross-band</li>
-            <li class="incorrect">Direct</li>
-            <li class="correct">Out-of-band</li>
-            <li class="correct">Inference</li>
-            <li class="correct">In-band</li>
-        </ul>
+      <h2>
+        Pytanie 13: Data from forms can be sent with 'GET' or 'POST' method.
+        Does the 'POST' method ensure higher level of security?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
 
-        <h2>Pytanie 14: Data filtering is a technique that can help to protect against:</h2>
-        <ul>
-            <li class="incorrect">Brute force attacks</li>
-            <li class="incorrect">Unauthorised access to functions</li>
-            <li class="incorrect">Unauthorised access to data</li>
-            <li class="correct">SQL Injection attacks</li>
-            <li class="correct">XSS attacks</li>
-        </ul>
+      <h2>
+        Pytanie 14: Which type of attack is the best choice to steal session
+        identifier?
+      </h2>
+      <ul>
+        <li class="incorrect">Brute force</li>
+        <li class="correct">XSS</li>
+        <li class="incorrect">SQL Injection</li>
+        <li class="incorrect">Social engineering attack</li>
+      </ul>
 
-        <h2>Pytanie 15: What is Mosquitto?</h2>
-        <ul>
-            <li class="correct">broker for a queueing system</li>
-            <li class="incorrect">malware</li>
-            <li class="incorrect">application security analysis tool</li>
-            <li class="incorrect">nasty bug</li>
-        </ul>
+      <h2>Pytanie 15: What is Mosquitto?</h2>
+      <ul>
+        <li class="correct">Broker for a queueing system</li>
+        <li class="incorrect">Malware</li>
+        <li class="incorrect">Application security analysis tool</li>
+        <li class="incorrect">Nasty bug</li>
+      </ul>
 
-        <h2>Pytanie 16: Where should user activity records be stored to ensure the highest level of security?</h2>
-        <ul>
-            <li class="incorrect">cloud storage</li>
-            <li class="incorrect">text file registry on IT administrator’s machine</li>
-            <li class="incorrect">protected table in the database</li>
-            <li class="correct">independent machine with separate security measures</li>
-        </ul>
+      <h2>
+        Pytanie 16: Where should user activity records be stored to ensure the
+        highest level of security?
+      </h2>
+      <ul>
+        <li class="incorrect">Cloud storage</li>
+        <li class="incorrect">
+          Text file registry on IT administrator’s machine
+        </li>
+        <li class="incorrect">Protected table in the database</li>
+        <li class="correct">
+          Independent machine with separate security measures
+        </li>
+      </ul>
 
-        <h2>Pytanie 17: Phishing is a way of attempting to acquire information. What information does it try to acquire?
-        </h2>
-        <ul>
-            <li class="correct">Social security numbers</li>
-            <li class="correct">Other personal details</li>
-            <li class="correct">Credit card details</li>
-            <li class="correct">Usernames and passwords</li>
-        </ul>
+      <h2>
+        Pytanie 17: Phishing is a way of attempting to acquire information. What
+        information does it try to acquire?
+      </h2>
+      <ul>
+        <li class="correct">Social security numbers</li>
+        <li class="correct">Other personal details</li>
+        <li class="correct">Credit card details</li>
+        <li class="correct">Usernames and passwords</li>
+      </ul>
 
-        <h2>Pytanie 18: Is it recommended to use permanent blockades when a series of incorrect login attempts to a user
-            account are detected?</h2>
-        <ul>
-            <li class="incorrect">Prawda</li>
-            <li class="correct">Fałsz</li>
-        </ul>
+      <h2>
+        Pytanie 18: Is it recommended to use permanent blockades when a series
+        of incorrect login attempts to a user account are detected?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
 
-        <h2>Pytanie 19: What is the purpose of a security token in authentication?</h2>
-        <ul>
-            <li class="incorrect">Storing sensitive information</li>
-            <li class="incorrect">Monitoring network activity</li>
-            <li class="correct">Generating one-time passwords for authentication</li>
-            <li class="incorrect">Encrypting communication channels</li>
-        </ul>
+      <h2>
+        Pytanie 19: What is the purpose of a security token in authentication?
+      </h2>
+      <ul>
+        <li class="incorrect">Storing sensitive information</li>
+        <li class="incorrect">Monitoring network activity</li>
+        <li class="correct">
+          Generating one-time passwords for authentication
+        </li>
+        <li class="incorrect">Encrypting communication channels</li>
+      </ul>
 
+      <h2>
+        Pytanie 20: What is the purpose of a digital signature in secure
+        communications?
+      </h2>
+      <ul>
+        <li class="incorrect">Monitoring network traffic</li>
+        <li class="incorrect">Blocking malware</li>
+        <li class="correct">Authenticating the sender</li>
+        <li class="correct">Ensuring the integrity of the message</li>
+      </ul>
+
+      <h2>
+        Pytanie 21: The application removes tags from data downloaded from the
+        form. Which string will be handled incorrectly?
+      </h2>
+      <ul>
+        <li class="incorrect">765</li>
+        <li class="incorrect">tekst</li>
+        <li class="incorrect">TEKST</li>
+        <li class="incorrect">O2+ 2H2->2H2O</li>
+        <li class="correct">x+3<<y</li>
+      </ul>
+
+      <h2>Pytanie 22: What JWT tokens can contain?</h2>
+      <ul>
+        <li class="correct">List of GUI modules accessible for user</li>
+        <li class="correct">User data</li>
+        <li class="correct">User roles</li>
+        <li class="correct">User privileges</li>
+      </ul>
+
+      <h2>
+        Pytanie 23: The user entered SQL code in the form. In response, he
+        managed to obtain data to which he should not have had access. What
+        could be causing the problem?
+      </h2>
+      <ul>
+        <li class="incorrect">No special characters escaping</li>
+        <li class="correct">
+          Sending requests to the server as a single string containing an SQL
+          command and data
+        </li>
+        <li class="incorrect">
+          There is no function that removes tags from data downloaded from the
+          form
+        </li>
+        <li class="correct">Lack of data filtering</li>
+      </ul>
+
+      <h2>Pytanie 24: What is the primary purpose of a security audit?</h2>
+      <ul>
+        <li class="incorrect">Encrypting communication channels</li>
+        <li class="correct">
+          Identifying vulnerabilities and assessing security measures
+        </li>
+        <li class="incorrect">Enhancing system performance</li>
+        <li class="incorrect">Detecting and removing malware</li>
+      </ul>
+
+      <h2>
+        Pytanie 25: Authentication methods based on who the user is may use:
+      </h2>
+      <ul>
+        <li class="incorrect">Writing speed</li>
+        <li class="incorrect">Token</li>
+        <li class="correct">Fingerprint</li>
+        <li class="incorrect">Password e. security question</li>
+      </ul>
+
+      <h2>
+        Pytanie 26: Authentication methods based on what the user knows can use:
+      </h2>
+      <ul>
+        <li class="correct">Password</li>
+      </ul>
+
+      <h2>Pytanie 27: What content is carried in a JWT token?</h2>
+      <ul>
+        <li class="correct">Any data</li>
+      </ul>
+
+      <h2>
+        Pytanie 28: Mechanizm, w którym składnia zapytania SQL oraz dane są
+        przesyłane oddzielnie do serwera bazodanowego to:
+      </h2>
+      <ul>
+        <li class="incorrect">Tautologia</li>
+        <li class="incorrect">XSS</li>
+        <li class="correct">Szablony zapytań</li>
+        <li class="incorrect">Wstrzyknięcie kodu SQL</li>
+      </ul>
+
+      <h2>
+        Pytanie 29: What data do you have to give to the input of the function
+        that calculate HMAC in PHP?
+      </h2>
+      <ul>
+        <li class="incorrect">Message, secret key, initialization vector</li>
+        <li class="incorrect">Secret key, message, ipad, opad</li>
+        <li class="correct">Message, secret key and hashing algorithm name</li>
+        <li class="incorrect">Only message</li>
+      </ul>
+
+      <h2>
+        Pytanie 30: Can user activity registration be helpful in the
+        reproduction of incorrect system behaviour?
+      </h2>
+      <ul>
+        <li class="correct">True</li>
+        <li class="incorrect">False</li>
+      </ul>
+
+      <h2>Pytanie 31: Jakiego typu powinna być zmienna $active użyta?</h2>
+      <ul>
+        <li class="correct">Integer</li>
+      </ul>
+
+      <h2>
+        Pytanie 32: To log in to some service you have to give some number. This
+        number is displayed in a mobile application - but it changes every two
+        minutes (it is periodically generated). What is the name of solution
+        used?
+      </h2>
+      <ul>
+        <li class="correct">One time password</li>
+        <li class="incorrect">Reversed HMAC</li>
+        <li class="incorrect">Mobile token</li>
+        <li class="incorrect">Hash</li>
+      </ul>
+
+      <h2>
+        Pytanie 33: What should be used to obtain different cryptographic hashes
+        of passwords when two users use the same password?
+      </h2>
+      <ul>
+        <li class="incorrect">Pepper</li>
+        <li class="incorrect">Message digests encryption</li>
+        <li class="incorrect">Rainbow table</li>
+        <li class="correct">Salt</li>
+      </ul>
+
+      <h2>
+        Pytanie 34: Jakiego efektu można się spodziewać po wstrzyknięciu do
+        formularza?
+      </h2>
+      <ul>
+        <li class="incorrect">Użytkownik zostanie zalogowany</li>
+      </ul>
+
+      <h2>Pytanie 35: Does POST offer greater safety than GET?</h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 36: Which of the below are the types of SQL Injection attacks?
+      </h2>
+      <ul>
+        <li class="correct">In-band</li>
+        <li class="incorrect">Direct</li>
+        <li class="incorrect">Cross-band</li>
+        <li class="correct">Out-of-band</li>
+        <li class="correct">Inference</li>
+      </ul>
+
+      <h2>
+        Pytanie 37: Data from forms can be sent with GET or POST method. Does
+        the POST method ensure higher level of security?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 38: Is it possible to overhear a request sent by POST method?
+      </h2>
+      <ul>
+        <li class="correct">True</li>
+        <li class="incorrect">False</li>
+      </ul>
+
+      <h2>Pytanie 39: In XSS attacks you can inject:</h2>
+      <ul>
+        <li class="correct">Javascript</li>
+        <li class="incorrect">PHP</li>
+        <li class="correct">HTML</li>
+        <li class="incorrect">SQL</li>
+      </ul>
+
+      <h2>
+        Pytanie 40: Which type of attack is the best choice to steal session
+        identifier?
+      </h2>
+      <ul>
+        <li class="incorrect">SQL Injection</li>
+        <li class="incorrect">Social engineering attack</li>
+        <li class="incorrect">Brute force</li>
+        <li class="correct">XSS</li>
+      </ul>
+
+      <h2>Pytanie 41: Should each microservice control user privileges?</h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 42: Let's assume that login form is susceptible to SQLI attack.
+        Can it be possible to verify what version of database is used in the
+        application while attacking this form with SQLI?
+      </h2>
+      <ul>
+        <li class="correct">True</li>
+        <li class="incorrect">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 43: We are processing user passwords as hashes. Should we filter
+        passwords taken from login form?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 44: Is a random enumeration of resources a method of protection
+        against unauthorized access to data?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 45: We have bcrypt hashing function having 14 rounds - its
+        execution time is over 1 second. We are going to use this function to
+        keep user passwords hashes in heavy duty system (about 100 logins per
+        minute). Will we obtain a good level of security?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 46: Data filtering is a technique that can help to protect
+        against:
+      </h2>
+      <ul>
+        <li class="incorrect">Unauthorised access to data</li>
+        <li class="correct">XSS attacks</li>
+        <li class="correct">SQL Injection attacks</li>
+        <li class="incorrect">Unauthorised access to functions</li>
+      </ul>
+
+      <h2>Pytanie 47: Which expression is a tautology?</h2>
+      <ul>
+        <li class="correct">1=1</li>
+        <li class="correct">7>5</li>
+        <li class="correct">'7' between '4' and '9'</li>
+        <li class="incorrect">'taut'</li>
+        <li class="incorrect">curdate()=floor(2.3)</li>
+      </ul>
+
+      <h2>
+        Pytanie 48: Is it possible to create a trap to catch a request sent with
+        POST method and modify request and an answer to this request?
+      </h2>
+      <ul>
+        <li class="correct">True</li>
+        <li class="incorrect">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 49: What is the concept of least privilege in computer security?
+      </h2>
+      <ul>
+        <li class="incorrect">Restricting all users to read-only access</li>
+        <li class="incorrect">
+          Giving users the highest level of access rights
+        </li>
+        <li class="incorrect">
+          Allowing unrestricted access to critical systems
+        </li>
+        <li class="correct">
+          Granting access only to the resources necessary for user's tasks
+        </li>
+      </ul>
+
+      <h2>Pytanie 50: Input validation should contain:</h2>
+      <ul>
+        <li class="correct">Black list</li>
+        <li class="correct">White list</li>
+        <li class="incorrect">Red list</li>
+        <li class="incorrect">Green list</li>
+      </ul>
+
+      <h2>
+        Pytanie 51: Determining whether a user has access rights to the
+        requested resource and granting or denying access is:
+      </h2>
+      <ul>
+        <li class="incorrect">Verification</li>
+        <li class="incorrect">Log in</li>
+        <li class="incorrect">Authentication</li>
+        <li class="correct">Authorization</li>
+      </ul>
+
+      <h2>
+        Pytanie 52: Which mentioned method of users passwords storage offers the
+        highest level of security?
+      </h2>
+      <ul>
+        <li class="incorrect">As hash with salt and pepper</li>
+        <li class="incorrect">As encrypted text</li>
+        <li class="incorrect">Plaintext</li>
+        <li class="correct">As encrypted hash with salt</li>
+      </ul>
+
+      <h2>
+        Pytanie 53: Is it recommended to use permanent blockades when a series
+        of incorrect login attempts to a user account are detected?
+      </h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
+
+      <h2>
+        Pytanie 54: Którego z poniższych fragmentów kodu użyjesz by
+        przefiltrować zmienną age przechowującą wiek użytkownika podany w
+        latach?
+      </h2>
+      <ul>
+        <li class="incorrect">
+          $var = filter_var(age, FILTER_VALIDATE_BOOLEAN,
+          FILTER_NULL_ON_FAILURE);
+        </li>
+        <li class="incorrect">
+          $var = filter_var(age, FILTER_VALIDATE_STRING);
+        </li>
+        <li class="incorrect">
+          $var = filter_var(age, FILTER_VALIDATE_BOOLEAN, array('flags' =>
+          FILTER_NULL_ON_FAILURE));
+        </li>
+        <li class="correct">$var = filter_var(age, FILTER_VALIDATE_INT);</li>
+      </ul>
+
+      <h2>
+        Pytanie 55: The system code undergoes a detailed review and analysis
+        looking specifically for security vulnerabilities. What type of test is
+        this?
+      </h2>
+      <ul>
+        <li class="incorrect">Penetration Testing</li>
+        <li class="incorrect">Vulnerability Assessment</li>
+        <li class="correct">Code Review</li>
+        <li class="incorrect">Runtime Testing</li>
+      </ul>
+
+      <h2>
+        Pytanie 56: Which of the following assertions will you use to check if
+        the object was not initialized?
+      </h2>
+      <ul>
+        <li class="correct">assertNull</li>
+        <li class="incorrect">assertEmpty</li>
+        <li class="incorrect">assertNotNull</li>
+        <li class="incorrect">assertObjectNull</li>
+      </ul>
+
+      <h2>
+        Pytanie 57: What annotation should be placed before the JUnit test
+        method to be run multiple times?
+      </h2>
+      <ul>
+        <li class="incorrect">@Repeat</li>
+        <li class="incorrect">@Arguments</li>
+        <li class="incorrect">@ExecuteMany</li>
+        <li class="correct">@Parameters</li>
+      </ul>
+
+      <h2>Pytanie 58: Which function is the most resistant to collisions?</h2>
+      <ul>
+        <li class="correct">HMAC</li>
+        <li class="incorrect">bcrypt</li>
+        <li class="incorrect">MD5</li>
+        <li class="incorrect">SHA512</li>
+      </ul>
+
+      <h2>
+        Pytanie 59: Indicate the false sentence about TDD (Test driven
+        Development):
+      </h2>
+      <ul>
+        <li class="incorrect">One of the main TDD steps is refactoring</li>
+        <li class="correct">In this technique tests cannot be parameterized</li>
+        <li class="incorrect">
+          It is a software development technique that involves writing tests
+          before code implementation
+        </li>
+        <li class="incorrect">
+          The use of TDD is profitable in large projects
+        </li>
+      </ul>
+
+      <h2>
+        Pytanie 60: For a branch of the code to be considered checked during
+        testing process:
+      </h2>
+      <ul>
+        <li class="incorrect">Mutation tests should be used</li>
+        <li class="correct">
+          If statements must be executed at least twice (once for true and once
+          for false) Each loop must be repeated at least twice
+        </li>
+        <li class="incorrect">
+          Each if statement must be run at least once Each loop has to be run at
+          least once
+        </li>
+        <li class="incorrect">Tests should be run only for tested branch</li>
+      </ul>
+      <h2>
+        Pytanie 61: At which level user's privileges in IT system can be
+        defined?
+      </h2>
+      <ul>
+        <li class="correct">User</li>
+        <li class="correct">Role</li>
+        <li class="incorrect">Basic</li>
+        <li class="correct">Group</li>
+      </ul>
+
+      <h2>Pytanie 62: Which type of tests checks methods in isolation?</h2>
+      <ul>
+        <li class="incorrect">Isolation tests</li>
+        <li class="correct">Unit tests</li>
+        <li class="incorrect">Integration tests</li>
+        <li class="incorrect">System tests</li>
+      </ul>
+
+      <h2>
+        Pytanie 63: An attacker tries to break into an IT system by guessing
+        users passwords. He tries to log in to each user account only twice. He
+        is using a program installed on his computer to automatically try to log
+        in to various accounts. Which mechanism can block passwords guessing
+        process?
+      </h2>
+      <ul>
+        <li class="incorrect">Granting users minimum privileges</li>
+        <li class="incorrect">Two factor authorisation usage</li>
+        <li class="incorrect">Blocking users accounts after working hours</li>
+        <li class="correct">
+          Blocking an IP address from which many unsuccessful login trials were
+          proceeded
+        </li>
+      </ul>
+
+      <h2>Pytanie 64: Software testing is:</h2>
+      <ul>
+        <li class="incorrect">Software quality assurance process</li>
+        <li class="correct">All answers are correct</li>
+        <li class="incorrect">A trial of software bugs detection</li>
+        <li class="incorrect">
+          A code execution for some combinations of input data and software
+          states to detect errors e. Software validation and verification
+          technique
+        </li>
+      </ul>
+
+      <h2>Pytanie 65: What is the goal of testing?</h2>
+      <ul>
+        <li class="incorrect">Comparing system behaviour with its project</li>
+        <li class="incorrect">Production of reliable software</li>
+        <li class="incorrect">Identification of all errors</li>
+        <li class="correct">Obtaining a certain level of system reliability</li>
+      </ul>
+
+      <h2>
+        Pytanie 66: Which annotation from the jUnit library ensures that the
+        method marked with this annotation will be executed only once before
+        performing class testing methods?
+      </h2>
+      <ul>
+        <li class="incorrect">@BeforeTest</li>
+        <li class="incorrect">@Before</li>
+        <li class="incorrect">@Test</li>
+        <li class="correct">@BeforeClass</li>
+      </ul>
+
+      <h2>
+        Pytanie 67: What kind of test rely on rerunning existing tests after
+        making changes to the code?
+      </h2>
+      <ul>
+        <li class="correct">Regression test</li>
+        <li class="correct">Acceptance test</li>
+        <li class="correct">Repetitive test</li>
+        <li class="incorrect">Delayed test</li>
+      </ul>
+
+      <h2>
+        Pytanie 68: You need a functionality of temporary user account blockade.
+        After third subsequent unsuccessful login trial you want to block
+        account for 3 minutes. All user data is kept only in user table. Which
+        fields in the user table are necessary to realize this functionality?
+      </h2>
+      <ul>
+        <li class="incorrect">
+          email - user e-mail address to send password reset link
+        </li>
+        <li class="correct">blocked - if user is blocked or not</li>
+        <li class="correct">
+          unsuccessful_login_count - a number of subsequent unsuccessful logins
+          since last correct login
+        </li>
+        <li class="incorrect">
+          blockade_time - the end of the blockade period
+        </li>
+      </ul>
+
+      <h2>
+        Pytanie 69: You have to analyse a computer to protect digital evidence.
+        Whose activities are important during this procedure?
+      </h2>
+      <ul>
+        <li class="incorrect">Duplicate investigated data</li>
+        <li class="incorrect">
+          Create a new folder on analysed disc and copy all evidence in one
+          place
+        </li>
+        <li class="correct">Copy disc content using write blocker</li>
+        <li class="incorrect">Break user password</li>
+      </ul>
+
+      <h2>Pytanie 70: How user can get one time password?</h2>
+      <ul>
+        <li class="incorrect">It can be generated with public key usage</li>
+        <li class="correct">From hardware token</li>
+        <li class="incorrect">He can randomly generate it</li>
+        <li class="incorrect">From public repository</li>
+      </ul>
+
+      <h2>Pytanie 71: Testing can reveal the lack of errors</h2>
+      <ul>
+        <li class="incorrect">True</li>
+        <li class="correct">False</li>
+      </ul>
+
+      <h2>Pytanie 72: Please mark all steps of TDD.</h2>
+      <ul>
+        <li class="correct">Refactor code</li>
+        <li class="correct">Write a piece of code that will let</li>
+        <li class="incorrect">
+          Write a method for which a test will be created
+        </li>
+        <li class="incorrect">Use stubs</li>
+      </ul>
+
+      <h2>
+        Pytanie 73: What tests are done by client while he is assessing if a
+        software meets his requirments and works properly?
+      </h2>
+      <ul>
+        <li class="incorrect">System tests</li>
+        <li class="correct">Acceptance tests</li>
+        <li class="incorrect">Unit tests</li>
+        <li class="incorrect">Client tests</li>
+      </ul>
+
+      <h2>
+        Pytanie 74: Where should you implement the code to verify user
+        privileges to be sure that user will not be able to omit them?
+      </h2>
+      <ul>
+        <li class="incorrect">In GUI (user interface)</li>
+        <li class="incorrect">In database</li>
+        <li class="correct">Inside a function that gives an access to data</li>
+        <li class="incorrect">Inside the session</li>
+      </ul>
+
+      <h2>Pytanie 75: Input validation should be based on:</h2>
+      <ul>
+        <li class="correct">Whitelisting</li>
+        <li class="incorrect">Blacklisting</li>
+        <li class="incorrect">Redlisting</li>
+        <li class="incorrect">Greenlisting</li>
+      </ul>
+
+      <h2>
+        Pytanie 76: Phishing is a way of attempting to acquire information. What
+        information does it try to acquire?
+      </h2>
+      <ul>
+        <li class="correct">Usernames and passwords</li>
+        <li class="correct">Credit card details</li>
+        <li class="correct">Social security numbers</li>
+        <li class="correct">Other personal details</li>
+      </ul>
+
+      <h2>Pytanie 77: What is Cross-Site Scripting (XSS)?</h2>
+      <ul>
+        <li class="correct">
+          A technique of attack that involves injecting untrusted data into a
+          web application
+        </li>
+        <li class="incorrect">The process of encrypting data in a database.</li>
+        <li class="incorrect">
+          A method for user authorization in web applications.
+        </li>
+        <li class="incorrect">
+          A type of network attack that involves data interception.
+        </li>
+      </ul>
+
+      <h2>
+        Pytanie 78: Which technique should be used to prevent SQL Injection
+        attacks?
+      </h2>
+      <ul>
+        <li class="incorrect">Using simple passwords for easy recall.</li>
+        <li class="incorrect">
+          Employing non-standard ports for the database server.
+        </li>
+        <li class="correct">Using prepared statements in SQL queries.</li>
+      </ul>
+
+      <h2>
+        Pytanie 79: How much of the total internet traffic is generated
+        automatically by malicious bots?
+      </h2>
+      <ul>
+        <li class="incorrect">1/2</li>
+        <li class="incorrect">1/4</li>
+        <li class="correct">1/3</li>
+        <li class="incorrect">milionchuj</li>
+      </ul>
+
+      <h2>Pytanie 80: Expand the shortcut OWASP</h2>
+      <ul>
+        <li class="incorrect">
+          Organization for Web Application Security Protocols
+        </li>
+        <li class="incorrect">Online Web Access Security Program</li>
+        <li class="incorrect">Operational Web Application Security Platform</li>
+        <li class="correct">Open Web Application Security Project</li>
+      </ul>
+      <h2>Pytanie 81: Where should user activity records be stored?</h2>
+      <ul>
+        <li class="incorrect">
+          Text file registry on IT administrator's machine
+        </li>
+        <li class="incorrect">Protected table in the database</li>
+        <li class="correct">
+          Independent machine with separate security measures
+        </li>
+        <li class="incorrect">Cloud storage</li>
+      </ul>
+
+      <h2>
+        Pytanie 82: What happens when many users perform read and write
+        operations on the same database table at the same time?
+      </h2>
+      <ul>
+        <li class="correct">
+          Execution of activities slows down as many locks are created
+        </li>
+        <li class="incorrect">Critical error</li>
+        <li class="incorrect">All data is written and read at the same time</li>
+        <li class="incorrect">Data is lost</li>
+      </ul>
+
+      <h2>
+        Pytanie 83: What is the primary purpose of a firewall in computer
+        security?
+      </h2>
+      <ul>
+        <li class="incorrect">Blocking all incoming and outgoing traffic</li>
+        <li class="incorrect">Monitoring network activity</li>
+        <li class="correct">Protecting against unauthorized access</li>
+        <li class="incorrect">Enhancing internet speed</li>
+      </ul>
+
+      <h2>
+        Pytanie 84: Which security principle involves dividing a network into
+        smaller, isolated segments to contain potential security breaches?
+      </h2>
+      <ul>
+        <li class="incorrect">Least privilege</li>
+        <li class="correct">Network segmentation</li>
+        <li class="incorrect">Two-factor authentication</li>
+        <li class="incorrect">Intrusion Prevention System (IPS)</li>
+      </ul>
+
+      <h2>Pytanie 85: What does the acronym HTTPS stand for?</h2>
+      <ul>
+        <li class="correct">Hypertext Transfer Protocol Secure</li>
+        <li class="incorrect">
+          High-Efficiency Transport Protocol for Secure Systems
+        </li>
+        <li class="incorrect">Help the trash protect shit</li>
+        <li class="incorrect">Hostile Environment Protection System</li>
+      </ul>
+
+      <h2>
+        Pytanie 86: What is the purpose of a security patch in the context of
+        computer security?
+      </h2>
+      <ul>
+        <li class="incorrect">Removing malware</li>
+        <li class="correct">
+          Fixing software vulnerabilities and improving security
+        </li>
+        <li class="incorrect">Enhancing system performance</li>
+        <li class="incorrect">Encrypting communication channels</li>
+      </ul>
+
+      <h2>
+        Pytanie 87: What type of attack involves flooding a network or server
+        with excessive traffic to disrupt its normal operation?
+      </h2>
+      <ul>
+        <li class="incorrect">Phishing</li>
+        <li class="correct">Denial of Service (DoS)</li>
+        <li class="incorrect">Man-in-the-Middle (MitM)</li>
+        <li class="incorrect">Cross-site Scripting (XSS)</li>
+      </ul>
+
+      <h2>
+        Pytanie 88: Which of the following is a common method to protect against
+        SQL injection attacks?
+      </h2>
+      <ul>
+        <li class="incorrect">Implementing strong password policies</li>
+        <li class="incorrect">Regularly updating antivirus software</li>
+        <li class="correct">Input validation and parameterized queries</li>
+        <li class="incorrect">Enabling MAC (Mandatory Access Control)</li>
+      </ul>
+
+      <h2>Pytanie 89: What is the primary purpose of antivirus software?</h2>
+      <ul>
+        <li class="incorrect">Encrypting files</li>
+        <li class="incorrect">Preventing unauthorized access</li>
+        <li class="correct">Detecting and removing malicious software</li>
+        <li class="incorrect">Managing network traffic</li>
+      </ul>
+
+      <h2>
+        Pytanie 90: What is the purpose of a honey pot in computer security?
+      </h2>
+      <ul>
+        <li class="incorrect">Monitoring network traffic</li>
+        <li class="correct">
+          Detecting and diverting malicious activity by mimicking vulnerable
+          systems
+        </li>
+        <li class="incorrect">Encrypting stored data</li>
+        <li class="incorrect">Blocking access to malicious websites</li>
+      </ul>
+
+      <h2>Pytanie 91: What is the primary goal of a ransomware attack?</h2>
+      <ul>
+        <li class="incorrect">Stealing sensitive information</li>
+        <li class="incorrect">Disrupting network communication</li>
+        <li class="correct">
+          Encrypting files and demanding payment for their release
+        </li>
+        <li class="incorrect">Spreading across multiple computers</li>
+      </ul>
+
+      <h2>
+        Pytanie 92: Which protocol is commonly used for secure communication
+        over the web?
+      </h2>
+      <ul>
+        <li class="incorrect">FTP</li>
+        <li class="incorrect">HTTP</li>
+        <li class="correct">HTTPS</li>
+        <li class="incorrect">SNMP</li>
+      </ul>
+
+      <h2>
+        Pytanie 93: What is the primary purpose of an intrusion prevention
+        system (IPS)?
+      </h2>
+      <ul>
+        <li class="correct">
+          Detecting and blocking unauthorized access attempts
+        </li>
+        <li class="incorrect">Encrypting stored data</li>
+        <li class="incorrect">Scanning for malware</li>
+        <li class="incorrect">Filtering spam emails</li>
+      </ul>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
-        let showOnlyCorrect = false;
+      let showOnlyCorrect = false;
 
-        function toggleCorrectAnswers() {
-            showOnlyCorrect = !showOnlyCorrect;
-            const incorrectAnswers = document.querySelectorAll('.incorrect');
-            incorrectAnswers.forEach(answer => {
-                answer.style.display = showOnlyCorrect ? 'none' : 'list-item';
-            });
-            document.getElementById('correctBtn').classList.toggle('active', showOnlyCorrect);
-        }
+      function toggleCorrectAnswers() {
+        showOnlyCorrect = !showOnlyCorrect;
+        const incorrectAnswers = document.querySelectorAll(".incorrect");
+        incorrectAnswers.forEach((answer) => {
+          answer.style.display = showOnlyCorrect ? "none" : "list-item";
+        });
+        document
+          .getElementById("correctBtn")
+          .classList.toggle("active", showOnlyCorrect);
+      }
 
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            document.getElementById('darkModeBtn').classList.toggle('active');
-        }
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+        document.getElementById("darkModeBtn").classList.toggle("active");
+      }
 
-        function downloadPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+      function downloadPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
-            // Ustaw czcionkę
-            doc.setFont("helvetica"); // Helvetica obsługuje polskie znaki w jsPDF
-            doc.setFontSize(12);
+        // Ustaw czcionkę
+        doc.setFont("helvetica"); // Helvetica obsługuje polskie znaki w jsPDF
+        doc.setFontSize(12);
 
-            doc.text("Baza Pytań i Odpowiedzi", 10, 10);
-            let y = 20;
+        doc.text("Baza Pytań i Odpowiedzi", 10, 10);
+        let y = 20;
 
-            document.querySelectorAll('#questions h2, #questions li').forEach(el => {
-                if (el.offsetParent !== null) { // tylko widoczne elementy
-                    let text = el.textContent.trim();
+        document
+          .querySelectorAll("#questions h2, #questions li")
+          .forEach((el) => {
+            if (el.offsetParent !== null) {
+              // tylko widoczne elementy
+              let text = el.textContent.trim();
 
-                    // Zamień typowe polskie znaki na zgodne w PDF
-                    text = text.replace(/ą/g, "ą")
-                        .replace(/ć/g, "ć")
-                        .replace(/ę/g, "ę")
-                        .replace(/ł/g, "ł")
-                        .replace(/ń/g, "ń")
-                        .replace(/ó/g, "ó")
-                        .replace(/ś/g, "ś")
-                        .replace(/ź/g, "ź")
-                        .replace(/ż/g, "ż")
-                        .replace(/Ą/g, "Ą")
-                        .replace(/Ć/g, "Ć")
-                        .replace(/Ę/g, "Ę")
-                        .replace(/Ł/g, "Ł")
-                        .replace(/Ń/g, "Ń")
-                        .replace(/Ó/g, "Ó")
-                        .replace(/Ś/g, "Ś")
-                        .replace(/Ź/g, "Ź")
-                        .replace(/Ż/g, "Ż");
+              // Zamień typowe polskie znaki na zgodne w PDF
+              text = text
+                .replace(/ą/g, "ą")
+                .replace(/ć/g, "ć")
+                .replace(/ę/g, "ę")
+                .replace(/ł/g, "ł")
+                .replace(/ń/g, "ń")
+                .replace(/ó/g, "ó")
+                .replace(/ś/g, "ś")
+                .replace(/ź/g, "ź")
+                .replace(/ż/g, "ż")
+                .replace(/Ą/g, "Ą")
+                .replace(/Ć/g, "Ć")
+                .replace(/Ę/g, "Ę")
+                .replace(/Ł/g, "Ł")
+                .replace(/Ń/g, "Ń")
+                .replace(/Ó/g, "Ó")
+                .replace(/Ś/g, "Ś")
+                .replace(/Ź/g, "Ź")
+                .replace(/Ż/g, "Ż");
 
-                    doc.text(text, 10, y);
-                    y += 7;
+              doc.text(text, 10, y);
+              y += 7;
 
-                    if (y > 280) {
-                        doc.addPage();
-                        y = 10;
-                    }
-                }
-            });
+              if (y > 280) {
+                doc.addPage();
+                y = 10;
+              }
+            }
+          });
 
-            doc.save('baza_pytan.pdf');
-        }
+        doc.save("baza_pytan.pdf");
+      }
 
+      function filterQuestions() {
+        const input = document
+          .getElementById("searchInput")
+          .value.toLowerCase();
+        const questions = document.querySelectorAll("#questions h2");
 
-        function filterQuestions() {
-            const input = document.getElementById('searchInput').value.toLowerCase();
-            const questions = document.querySelectorAll('#questions h2');
-
-            questions.forEach(h2 => {
-                const questionText = h2.textContent.toLowerCase();
-                const ul = h2.nextElementSibling;
-                const matches = questionText.includes(input);
-                h2.style.display = matches ? '' : 'none';
-                ul.style.display = matches ? '' : 'none';
-            });
-        }
+        questions.forEach((h2) => {
+          const questionText = h2.textContent.toLowerCase();
+          const ul = h2.nextElementSibling;
+          const matches = questionText.includes(input);
+          h2.style.display = matches ? "" : "none";
+          ul.style.display = matches ? "" : "none";
+        });
+      }
     </script>
-
-</body>
-
+  </body>
 </html>
