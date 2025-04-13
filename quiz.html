@@ -1,401 +1,1287 @@
 <!DOCTYPE html>
 <html lang="pl">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quiz</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            padding: 20px;
-            line-height: 1.6;
-            margin: 0;
-            transition: background-color 0.3s, color 0.3s;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        padding: 20px;
+        line-height: 1.6;
+        margin: 0;
+        transition: background-color 0.3s, color 0.3s;
+      }
 
-        .dark-mode {
-            background-color: #1e1e1e;
-            color: #f4f4f9;
-        }
+      .dark-mode {
+        background-color: #1e1e1e;
+        color: #f4f4f9;
+      }
 
-        .top-menu {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 10px 20px;
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            z-index: 1000;
-            transition: background-color 0.3s, color 0.3s;
-        }
+      .top-menu {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        padding: 10px 20px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        z-index: 1000;
+        transition: background-color 0.3s, color 0.3s;
+      }
 
-        .dark-mode .top-menu {
-            background-color: #2e2e2e;
-        }
+      .dark-mode .top-menu {
+        background-color: #2e2e2e;
+      }
 
-        .top-menu a,
-        .top-menu button {
-            padding: 8px 16px;
-            border: none;
-            background-color: #4a4a8a;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s;
-        }
+      .top-menu a,
+      .top-menu button {
+        padding: 8px 16px;
+        border: none;
+        background-color: #4a4a8a;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
 
-        .top-menu button:hover,
-        .top-menu a:hover {
-            background-color: #37376a;
-        }
+      .top-menu button:hover,
+      .top-menu a:hover {
+        background-color: #37376a;
+      }
 
-        .setup {
-            margin-top: 80px;
-            margin-bottom: 20px;
-        }
+      .setup {
+        margin-top: 80px;
+        margin-bottom: 20px;
+      }
 
-        .question {
-            margin-top: 20px;
-            margin-bottom: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
+      .question {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
 
-        .dark-mode .question {
-            background-color: #2e2e2e;
-        }
+      .dark-mode .question {
+        background-color: #2e2e2e;
+      }
 
-        .answers label {
-            display: block;
-            margin: 8px 0;
-            cursor: pointer;
-        }
+      .answers label {
+        display: block;
+        margin: 8px 0;
+        cursor: pointer;
+      }
 
-        .check-button,
-        .reset-button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #4a4a8a;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+      .check-button,
+      .reset-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #4a4a8a;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
 
-        .correct {
-            color: green;
-        }
+      .correct {
+        color: green;
+      }
 
-        .incorrect {
-            color: red;
-        }
+      .incorrect {
+        color: red;
+      }
 
-        #result {
-            margin-top: 20px;
-            font-weight: bold;
-        }
+      #result {
+        margin-top: 20px;
+        font-weight: bold;
+      }
 
-        .question:first-of-type {
-            margin-top: 60px;
-        }
+      .question:first-of-type {
+        margin-top: 60px;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div class="top-menu">
-        <a href="index.html">Odpowiedzi</a>
-        <button onclick="toggleDarkMode()">Tryb ciemny 🌙</button>
+      <a href="index.html">Odpowiedzi</a>
+      <button onclick="toggleDarkMode()">Tryb ciemny 🌙</button>
     </div>
 
     <div class="setup">
-        <label for="questionCount">Ile pytań chcesz rozwiązać?(maks 19)</label>
-        <input type="number" id="questionCount" min="1" value="5">
-        <button onclick="startQuiz()">Rozpocznij quiz</button>
+      <label for="questionCount">Ile pytań chcesz rozwiązać?(maks 93)</label>
+      <input type="number" id="questionCount" min="1" value="5" />
+      <button onclick="startQuiz()">Rozpocznij quiz</button>
     </div>
 
     <div id="quiz"></div>
 
-    <button class="check-button" onclick="checkAnswers()" style="display:none;">Sprawdź odpowiedzi</button>
-    <button class="reset-button" onclick="resetQuiz()" style="display:none;">Wypełnij ponownie 🔄</button>
+    <button class="check-button" onclick="checkAnswers()" style="display: none">
+      Sprawdź odpowiedzi
+    </button>
+    <button class="reset-button" onclick="resetQuiz()" style="display: none">
+      Wypełnij ponownie 🔄
+    </button>
 
     <div id="result"></div>
 
     <script>
-        const allQuestions = [
+      const allQuestions = [
+        {
+          question:
+            "Why prepared statement helps to protect against SQL Injection attacks?",
+          answers: [
+            { text: "Contasins mechanisms of data filtering", correct: false },
             {
-                question: "Why prepared statement helps to protect against SQL Injection attacks?",
-                answers: [
-                    { text: "Contasins mechanisms of data filtering", correct: false },
-                    { text: "Sends query template and data in separate packages", correct: true },
-                    { text: "It implements black lists", correct: false },
-                    { text: "It removes SQL tokens from data", correct: false },
-                ]
+              text: "Sends query template and data in separate packages",
+              correct: true,
             },
-            {
-                question: "Should each microservice control user privileges?",
-                answers: [
-                    { text: "Prawda", correct: false },
-                    { text: "Fałsz", correct: true },
-                ]
-            },
-            {
-                question: "Is a random enumeration of resources a method of protection against unauthorized access to data?",
-                answers: [
-                    { text: "Prawda", correct: false },
-                    { text: "Fałsz", correct: true },
-                ]
-            },
-            {
-                question: "In XSS attacks you can inject:",
-                answers: [
-                    { text: "Javascript", correct: true },
-                    { text: "HTML", correct: true },
-                    { text: "SQL", correct: false },
-                    { text: "PHP", correct: false },
-                ]
-            },
-            {
-                question: "Is it possible to create a trap to catch a request sent with POST method and modify request and an answer to this request?",
-                answers: [
-                    { text: "Prawda", correct: true },
-                    { text: "Fałsz", correct: false },
-                ]
-            },
-            {
-                question: "Is it possible to overhear a request sent by POST method?",
-                answers: [
-                    { text: "Prawda", correct: true },
-                    { text: "Fałsz", correct: false },
-                ]
-            },
-            {
-                question: "We have bcrypt hashing function having 14 rounds - its execution time is over 1 second. We are going to use this function to keep user passwords hashes in heavy duty system (about 100 logins per minute). Will we obtain a good level of security?",
-                answers: [
-                    { text: "Prawda", correct: false },
-                    { text: "Fałsz", correct: true },
-                ]
-            },
-            {
-                question: "We are processing user passwords as hashes. Should we filter passwords taken from login form?",
-                answers: [
-                    { text: "Prawda", correct: false },
-                    { text: "Fałsz", correct: true },
-                ]
-            },
+            { text: "It implements black lists", correct: false },
+            { text: "It removes SQL tokens from data", correct: false },
+          ],
+        },
+        {
+          question: "Should each microservice control user privileges?",
+          answers: [
+            { text: "Prawda", correct: false },
+            { text: "Fałsz", correct: true },
+          ],
+        },
+        {
+          question:
+            "Is a random enumeration of resources a method of protection against unauthorized access to data?",
+          answers: [
+            { text: "Prawda", correct: false },
+            { text: "Fałsz", correct: true },
+          ],
+        },
+        {
+          question: "In XSS attacks you can inject:",
+          answers: [
+            { text: "Javascript", correct: true },
+            { text: "HTML", correct: true },
+            { text: "SQL", correct: false },
+            { text: "PHP", correct: false },
+          ],
+        },
+        {
+          question:
+            "Is it possible to create a trap to catch a request sent with POST method and modify request and an answer to this request?",
+          answers: [
+            { text: "Prawda", correct: true },
+            { text: "Fałsz", correct: false },
+          ],
+        },
+        {
+          question: "Is it possible to overhear a request sent by POST method?",
+          answers: [
+            { text: "Prawda", correct: true },
+            { text: "Fałsz", correct: false },
+          ],
+        },
+        {
+          question:
+            "We have bcrypt hashing function having 14 rounds - its execution time is over 1 second. We are going to use this function to keep user passwords hashes in heavy duty system (about 100 logins per minute). Will we obtain a good level of security?",
+          answers: [
+            { text: "Prawda", correct: false },
+            { text: "Fałsz", correct: true },
+          ],
+        },
+        {
+          question:
+            "We are processing user passwords as hashes. Should we filter passwords taken from login form?",
+          answers: [
+            { text: "Prawda", correct: false },
+            { text: "Fałsz", correct: true },
+          ],
+        },
+        {
+          question: "Which expression is a tautology?",
+          answers: [
+            { text: "‘7’ between ‘4’ and ‘9’", correct: true },
+            { text: "7>5", correct: true },
+            { text: "curdate()=floor(2.3)", correct: false },
+            { text: "1=1", correct: true },
+            { text: "'taut'", correct: false },
+          ],
+        },
+        {
+          question:
+            "Data filtering is a technique that can help to protect against:",
+          answers: [
+            { text: "Brute force attacks", correct: false },
+            { text: "Unauthorised access to functions", correct: false },
+            { text: "Unauthorised access to data", correct: false },
+            { text: "SQL Injection attacks", correct: true },
+            { text: "XSS attacks", correct: true },
+          ],
+        },
+        {
+          question:
+            "Which of the below are the types of SQL Injection attacks?",
+          answers: [
+            { text: "Cross-band", correct: false },
+            { text: "Direct", correct: false },
+            { text: "Out-of-band", correct: true },
+            { text: "Inference", correct: true },
+            { text: "In-band", correct: true },
+          ],
+        },
+        {
+          question:
+            "Data from forms can be sent with 'GET' or 'POST' method. Does the 'POST' method ensure higher level of security?",
+          answers: [
+            { text: "Prawda", correct: false },
+            { text: "Fałsz", correct: true },
+          ],
+        },
+        {
+          question:
+            "Which type of attack is the best choice to steal session identifier?",
+          answers: [
+            { text: "Brute force", correct: false },
+            { text: "XSS", correct: true },
+            { text: "SQL Injection", correct: false },
+            { text: "Social engineering attack", correct: false },
+          ],
+        },
 
+        {
+          question: "What is Mosquitto?",
+          answers: [
+            { text: "broker for a queueing system", correct: true },
+            { text: "malware", correct: false },
+            { text: "application security analysis tool", correct: false },
+            { text: "nasty bug", correct: false },
+          ],
+        },
+        {
+          question:
+            "Where should user activity records be stored to ensure the highest level of security?",
+          answers: [
+            { text: "cloud storage", correct: false },
             {
-                question: "Let's assume that login form is susceptible to SQLI attack. Can it be possible to verify what version of database is used?",
-                answers: [
-                    { text: "Prawda", correct: true },
-                    { text: "Fałsz", correct: false },
-                ]
+              text: "text file registry on IT administrator’s machine",
+              correct: false,
             },
+            { text: "protected table in the database", correct: false },
             {
-                question: "Which expression is a tautology?",
-                answers: [
-                    { text: "‘7’ between ‘4’ and ‘9’", correct: true },
-                    { text: "7>5", correct: true },
-                    { text: "curdate()=floor(2.3)", correct: false },
-                    { text: "1=1", correct: true },
-                    { text: "'taut'", correct: false },
-                ]
+              text: "independent machine with separate security measures",
+              correct: true,
             },
-            {
-                question: "Data filtering is a technique that can help to protect against:",
-                answers: [
-                    { text: "Brute force attacks", correct: false },
-                    { text: "Unauthorised access to functions", correct: false },
-                    { text: "Unauthorised access to data", correct: false },
-                    { text: "SQL Injection attacks", correct: true },
-                    { text: "XSS attacks", correct: true },
-                ]
-            },
-            {
-                question: "Which of the below are the types of SQL Injection attacks?",
-                answers: [
-                    { text: "Cross-band", correct: false },
-                    { text: "Direct", correct: false },
-                    { text: "Out-of-band", correct: true },
-                    { text: "Inference", correct: true },
-                    { text: "In-band", correct: true },
-                ]
-            },
-            {
-                question: "Data from forms can be sent with 'GET' or 'POST' method. Does the 'POST' method ensure higher level of security?",
-                answers: [
-                    { text: "Prawda", correct: false },
-                    { text: "Fałsz", correct: true },
-                ]
-            },
-            {
-                question: "Which type of attack is the best choice to steal session identifier?",
-                answers: [
-                    { text: "Brute force", correct: false },
-                    { text: "XSS", correct: true },
-                    { text: "SQL Injection", correct: false },
-                    { text: "Social engineering attack", correct: false },
-                ]
-            },
+          ],
+        },
+        {
+          question:
+            "Phishing is a way of attempting to acquire information. What information does it try to acquire?",
+          answers: [
+            { text: "Social security numbers", correct: true },
+            { text: "Other personal details", correct: true },
+            { text: "Credit card details", correct: true },
+            { text: "Usernames and passwords", correct: true },
+          ],
+        },
 
+        {
+          question:
+            "Is it recommended to use permanent blockades when a series of incorrect login attempts to a user account are detected?",
+          answers: [
+            { text: "Prawda", correct: false },
+            { text: "Fałsz", correct: true },
+          ],
+        },
+        {
+          question:
+            "What is the purpose of a security token in authentication?",
+          answers: [
+            { text: "Storing sensitive information", correct: false },
+            { text: "Monitoring network activity", correct: false },
             {
-                question: "What is Mosquitto?",
-                answers: [
-                    { text: "broker for a queueing system", correct: true },
-                    { text: "malware", correct: false },
-                    { text: "application security analysis tool", correct: false },
-                    { text: "nasty bug", correct: false },
-                ]
+              text: "Generating one-time passwords for authentication",
+              correct: true,
+            },
+            { text: "Encrypting communication channels", correct: false },
+          ],
+        },
+
+        {
+          question:
+            "What is the purpose of a security token in authentication?",
+          answers: [
+            {
+              text: "Generating one-time passwords for authentication",
+              correct: true,
+            },
+            { text: "Encrypting communication channels", correct: false },
+            { text: "Storing sensitive information", correct: false },
+            { text: "Monitoring network activity", correct: false },
+          ],
+        },
+        {
+          question:
+            "Why prepared statement helps to protect against SQL Injection attacks?",
+          answers: [
+            { text: "Contasins mechanisms of data filtering", correct: false },
+            { text: "It implements black lists", correct: false },
+            {
+              text: "Sends query template and data in separate packages",
+              correct: true,
+            },
+            { text: "It removes SQL tokens from data", correct: false },
+          ],
+        },
+        {
+          question:
+            "Is it possible to protect against attacks that are trying to identify resources enumeration?",
+          answers: [
+            {
+              text: "Yes - by limiting the number of resources client can get in defined time",
+              correct: true,
             },
             {
-                question: "Where should user activity records be stored to ensure the highest level of security?",
-                answers: [
-                    { text: "cloud storage", correct: false },
-                    { text: "text file registry on IT administrator’s machine", correct: false },
-                    { text: "protected table in the database", correct: false },
-                    { text: "independent machine with separate security measures", correct: true },
-                ]
+              text: "Yes - by appropriate definition of user privileges",
+              correct: false,
+            },
+            { text: "No it is impossible", correct: false },
+          ],
+        },
+        {
+          question:
+            "What is the purpose of a digital signature in secure communications?",
+          answers: [
+            { text: "Monitoring network traffic", correct: false },
+            { text: "Blocking malware", correct: false },
+            { text: "Authenticating the sender", correct: true },
+            { text: "Ensuring the integrity of the message", correct: true },
+          ],
+        },
+        {
+          question:
+            "The application removes tags from data downloaded from the form. Which string will be handled incorrectly?",
+          answers: [
+            { text: "765", correct: false },
+            { text: "tekst", correct: false },
+            { text: "TEKST", correct: false },
+            { text: "O2+ 2H2->2H2O", correct: false },
+            { text: "x+3<<y", correct: true },
+          ],
+        },
+        {
+          question: "What JWT tokens can contain?",
+          answers: [
+            { text: "List of GUI modules accessible for user", correct: true },
+            { text: "User data", correct: true },
+            { text: "User roles", correct: true },
+            { text: "User priviliges", correct: true },
+          ],
+        },
+        {
+          question:
+            "The user entered SQL code in the form. In response, he managed to obtain data to which he should not have had access. What could be causing the problem?",
+          answers: [
+            { text: "No special characters escaping", correct: false },
+            {
+              text: "Sending requests to the server as a single string containing an SQL command and data",
+              correct: true,
             },
             {
-                question: "Phishing is a way of attempting to acquire information. What information does it try to acquire?",
-                answers: [
-                    { text: "Social security numbers", correct: true },
-                    { text: "Other personal details", correct: true },
-                    { text: "Credit card details", correct: true },
-                    { text: "Usernames and passwords", correct: true },
-                ]
+              text: "There is no function that removes tags from data downloaded from the form",
+              correct: false,
             },
-
-
+            { text: "Lack of data filtering", correct: true },
+          ],
+        },
+        {
+          question: "What is the primary purpose of a security audit?",
+          answers: [
+            { text: "Encrypting communication channels", correct: false },
             {
-                question: "Is it recommended to use permanent blockades when a series of incorrect login attempts to a user account are detected?",
-                answers: [
-                    { text: "Prawda", correct: false },
-                    { text: "Fałsz", correct: true },
-                ]
+              text: "Identifying vulnerabilities and assessing security measures",
+              correct: true,
+            },
+            { text: "Enhancing system performance", correct: false },
+            { text: "Detecting and removing malware", correct: false },
+          ],
+        },
+        {
+          question: "Authentication methods based on who the user is may use:",
+          answers: [
+            { text: "writing speed", correct: false },
+            { text: "token", correct: false },
+            { text: "fingerprint", correct: true },
+            { text: "password e. security question", correct: false },
+          ],
+        },
+        {
+          question:
+            "Authentication methods based on what the user knows can use:",
+          answers: [{ text: "Password", correct: true }],
+        },
+        {
+          question: "What content is carried in a JWT token?",
+          answers: [{ text: "Any data", correct: true }],
+        },
+        {
+          question:
+            "Mechanizm, w którym składnia zapytania SQL oraz dane są przesyłane oddzielnie do serwera bazodanowego to:",
+          answers: [
+            { text: "Tautologia", correct: false },
+            { text: "XSS", correct: false },
+            { text: "Szablony zapytań", correct: true },
+            { text: "Wstrzyknięcie kodu SQL", correct: false },
+          ],
+        },
+        {
+          question:
+            "What data do you have to give to the input of the function that calculate HMAC in PHP?",
+          answers: [
+            {
+              text: "Message, secret key, initialization vector",
+              correct: false,
+            },
+            { text: "Secret key, message, ipad, opad", correct: false },
+            {
+              text: "Message, secret key and hashing algorithm name",
+              correct: true,
+            },
+            { text: "Only message", correct: false },
+          ],
+        },
+        {
+          question:
+            "Can user activity registration be helpful in the reproduction of incorrect system behaviour?",
+          answers: [
+            { text: "true", correct: true },
+            { text: "false", correct: false },
+          ],
+        },
+
+        {
+          question: "Jakiego typu powinna być zmienna $active użyta?",
+          answers: [{ text: "Integer", correct: true }],
+        },
+        {
+          question:
+            "To log in to some service you have to give some number. This number is displayed in a mobile application - but it changes every two minutes (it is periodically generated). What is the name of solution used?",
+          answers: [
+            { text: "One time password", correct: true },
+            { text: "Reversed HMAC", correct: false },
+            { text: "Mobile token", correct: false },
+            { text: "Hash", correct: false },
+          ],
+        },
+        {
+          question:
+            "What should be used to obtain different cryptographic hashes of passwords when two users use the same password?",
+          answers: [
+            { text: "pepper", correct: false },
+            { text: "message digests encryption", correct: false },
+            { text: "rainbow table", correct: false },
+            { text: "salt", correct: true },
+          ],
+        },
+        {
+          question:
+            "Jakiego efektu można się spodziewać po wstrzyknięciu do formularza?",
+          answers: [{ text: "uzytkownik zostanie zalogowany", correct: false }],
+        },
+        {
+          question: "Does POST offer greater safety than GET?",
+          answers: [
+            { text: "true", correct: false },
+            { text: "false", correct: true },
+          ],
+        },
+        {
+          question:
+            "Data from forms can be sent with get or post method. Does the post method ensure higher level of security?",
+          answers: [
+            { text: "true", correct: false },
+            { text: "false", correct: true },
+          ],
+        },
+        {
+          question: "Is it possible to overhear a request sent by post method?",
+          answers: [
+            { text: "true", correct: true },
+            { text: "false", correct: false },
+          ],
+        },
+        {
+          question: "In XSS attacks you can inject:",
+          answers: [
+            { text: "Javascript", correct: true },
+            { text: "PHP", correct: false },
+            { text: "HTML", correct: true },
+            { text: "SQL", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which type of attack is the best choice to steal session identifier?",
+          answers: [
+            { text: "SQL Injection", correct: false },
+            { text: "social engineering attack", correct: false },
+            { text: "Brute force", correct: false },
+            { text: "XSS", correct: true },
+          ],
+        },
+        {
+          question: "Should each microservice control user privileges?",
+          answers: [
+            { text: "true", correct: false },
+            { text: "false", correct: true },
+          ],
+        },
+        {
+          question:
+            "Let's assume that login form is susceptible to SQLI attack. Can it be possible to verify what version of database is used in the application while attacking this form with SQLI?",
+          answers: [
+            { text: "true", correct: true },
+            { text: "false", correct: false },
+          ],
+        },
+        {
+          question:
+            "We are processing user passwords as hashes. Should we filter passwords taken from login form?",
+          answers: [
+            { text: "true", correct: false },
+            { text: "false", correct: true },
+          ],
+        },
+        {
+          question:
+            "Is a random enumeration of resources a method of protection against unauthorized access to data?",
+          answers: [
+            { text: "true", correct: false },
+            { text: "false", correct: true },
+          ],
+        },
+        {
+          question:
+            "We have bcrypt hashing function having 14 rounds - its execution time is over 1 second. We are going to use this function to keep user passwords hashes in heavy duty system (about 100 logins per minute). Will we obtain a good level of security?",
+          answers: [
+            { text: "true", correct: false },
+            { text: "false", correct: true },
+          ],
+        },
+        {
+          question: "Which expression is a tautology?",
+          answers: [
+            { text: "1=1", correct: true },
+            { text: "7>5", correct: true },
+            { text: "'7' between '4' and '9'", correct: true },
+            { text: "'taut'", correct: false },
+            { text: "curdate()=floor(2.3)", correct: false },
+          ],
+        },
+        {
+          question:
+            "What is the concept of least privilege in computer security?",
+          answers: [
+            {
+              text: "Restricting all users to read-only access",
+              correct: false,
             },
             {
-                question: "What is the purpose of a security token in authentication?",
-                answers: [
-                    { text: "Storing sensitive information", correct: false },
-                    { text: "Monitoring network activity", correct: false },
-                    { text: "Generating one-time passwords for authentication", correct: true },
-                    { text: "Encrypting communication channels", correct: false },
-                ]
+              text: "Giving users the highest level of access rights",
+              correct: false,
             },
+            {
+              text: "Allowing unrestricted access to critical systems",
+              correct: false,
+            },
+            {
+              text: "Granting access only to the resources necessary for user's tasks",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question: "Input validation should contain:",
+          answers: [
+            { text: "Black list", correct: true },
+            { text: "White list", correct: true },
+            { text: "Red list", correct: false },
+            { text: "Green list", correct: false },
+          ],
+        },
+        {
+          question:
+            "Determining whether a user has access rights to the requested resource and granting or denying access is:",
+          answers: [
+            { text: "Verification", correct: false },
+            { text: "Log in", correct: false },
+            { text: "Authentication", correct: false },
+            { text: "Authorization", correct: true },
+          ],
+        },
+        {
+          question:
+            "Which mentioned method of users passwords storage offers the highest level of security?",
+          answers: [
+            { text: "As hash with salt and pepper", correct: false },
+            { text: "As encrypted text", correct: false },
+            { text: "Plaintext", correct: false },
+            { text: "As encrypted hash with salt", correct: true },
+          ],
+        },
+        {
+          question:
+            "Którego z poniższych fragmentów kodu użyjesz by przefiltrować zmienną age przechowującą wiek użytkownika podany w latach?",
+          answers: [
+            {
+              text: "$var = filter_var(age, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);",
+              correct: false,
+            },
+            {
+              text: "$var = filter_var(age, FILTER_VALIDATE_STRING);",
+              correct: false,
+            },
+            {
+              text: "$var = filter_var(age, FILTER_VALIDATE_BOOLEAN, array('flags' => FILTER_NULL_ON_FAILURE));",
+              correct: false,
+            },
+            {
+              text: "$var = filter_var(age, FILTER_VALIDATE_INT);",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question:
+            "The system code undergoes a detailed review and analysis looking specifically for security vulnerabilities. What type of test is this?",
+          answers: [
+            { text: "Penetration Testing", correct: false },
+            { text: "Vulnerability Assessment", correct: false },
+            { text: "Code Review", correct: true },
+            { text: "Runtime Testing", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following assertions will you use to check if the object was not initialized?",
+          answers: [
+            { text: "assertNull", correct: true },
+            { text: "assertEmpty", correct: false },
+            { text: "assertNotNull", correct: false },
+            { text: "assertObjectNull", correct: false },
+          ],
+        },
+        {
+          question:
+            "What annotation should be placed before the JUnit test method to be run multiple times?",
+          answers: [
+            { text: "@Repeat", correct: false },
+            { text: "@Arguments", correct: false },
+            { text: "@ExecuteMany", correct: false },
+            { text: "@Parameters", correct: true },
+          ],
+        },
+        {
+          question: "Which function is the most resistant to collisions?",
+          answers: [
+            { text: "HMAC", correct: true },
+            { text: "bcrypt", correct: false },
+            { text: "MD5", correct: false },
+            { text: "SHA512", correct: false },
+          ],
+        },
+        {
+          question:
+            "Indicate the false sentence about TDD (Test driven Development):",
+          answers: [
+            {
+              text: "One of the main TDD steps is refactoring",
+              correct: false,
+            },
+            {
+              text: "In this technique tests cannot be parameterized",
+              correct: true,
+            },
+            {
+              text: "It is a software development technique that involves writing tests before code implementation",
+              correct: false,
+            },
+            {
+              text: "The use of TDD is profitable in large projects",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "For a branch of the code to be considered checked during testing process:",
+          answers: [
+            { text: "Mutation tests should be used", correct: false },
+            {
+              text: "If statements must be executed at least twice (once for true and once for false) Each loop must be repeated at least twice",
+              correct: true,
+            },
+            {
+              text: "Each if statement must be run at least once Each loop has to be run at least once",
+              correct: false,
+            },
+            {
+              text: "Tests should be run only for tested branch",
+              correct: false,
+            },
+          ],
+        },
 
-            // Dodaj kolejne pytania tutaj
-        ];
+        {
+          question:
+            "At which level user's privileges in IT system can be defined?",
+          answers: [
+            { text: "User", correct: true },
+            { text: "Role", correct: true },
+            { text: "Basic", correct: false },
+            { text: "Group", correct: true },
+          ],
+        },
+        {
+          question: "Which type of tests checks methods in isolation?",
+          answers: [
+            { text: "Isolation tests", correct: false },
+            { text: "Unit tests", correct: true },
+            { text: "Integration tests", correct: false },
+            { text: "System tests", correct: false },
+          ],
+        },
+        {
+          question:
+            "An attacker tries to break into an IT system by guessing users passwords. He tries to log in to each user account only twice. He is using a program installed on his computer to automatically try to log in to various accounts. Which mechanism can block passwords guessing process?",
+          answers: [
+            { text: "Granting users minimum privileges", correct: false },
+            { text: "Two factor authorisation usage", correct: false },
+            {
+              text: "Blocking users accounts after working hours",
+              correct: false,
+            },
+            {
+              text: "Blocking an IP address from which many unsuccessful login trials were proceeded",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question: "Software testing is:",
+          answers: [
+            { text: "Software quality assurance process", correct: false },
+            { text: "All answers are correct", correct: true },
+            { text: "A trial of software bugs detection", correct: false },
+            {
+              text: "A code execution for some combinations of input data and software states to detect errors e. Software validation and verification technique",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question: "What is the goal of testing?",
+          answers: [
+            {
+              text: "Comparing system behaviour with its project",
+              correct: false,
+            },
+            { text: "Production of reliable software", correct: false },
+            { text: "Identification of all errors", correct: false },
+            {
+              text: "Obtaining a certain level of system reliability",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question:
+            "Which annotation from the jUnit library ensures that the method marked with this annotation will be executed only once before performing class testing methods?",
+          answers: [
+            { text: "@BeforeTest", correct: false },
+            { text: "@Before", correct: false },
+            { text: "@Test", correct: false },
+            { text: "@BeforeClass", correct: true },
+          ],
+        },
+        {
+          question:
+            "What kind of test rely on rerunning existing tests after making changes to the code?",
+          answers: [
+            { text: "Regression test", correct: true },
+            { text: "Acceptance test", correct: true },
+            { text: "Repetitive test", correct: true },
+            { text: "Delayed test", correct: false },
+          ],
+        },
+        {
+          question:
+            "You need a functionality of temporary user account blockade. After third subsequent unsuccessful login trial you want to block account for 3 minutes. All user data is kept only in user table. Which fields in the user table are necessary to realize this functionality?",
+          answers: [
+            {
+              text: "email - user e-mail address to send password reset link",
+              correct: false,
+            },
+            { text: "blocked - if user is blocked or not", correct: true },
+            {
+              text: "unsuccessful_login_count - a number of subsequent unsuccessful logins since last correct login",
+              correct: true,
+            },
+            {
+              text: "blockade_time - the end of the blockade period",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "You have to analyse a computer to protect digital evidence. Whose activities are important during this procedure?",
+          answers: [
+            { text: "Duplicate investigated data", correct: false },
+            {
+              text: "Create a new folder on analysed disc and copy all evidence in one place",
+              correct: false,
+            },
+            { text: "Copy disc content using write blocker", correct: true },
+            { text: "Break user password", correct: false },
+          ],
+        },
+        {
+          question: "How user can get one time password?",
+          answers: [
+            {
+              text: "It can be generated with public key usage",
+              correct: false,
+            },
+            { text: "From hardware token", correct: true },
+            { text: "He can randomly generate it", correct: false },
+            { text: "From public repository", correct: false },
+          ],
+        },
+        {
+          question: "Testing can reveal the lack of errors",
+          answers: [
+            { text: "true", correct: false },
+            { text: "false", correct: true },
+          ],
+        },
+        {
+          question: "Please mark all steps of TDD.",
+          answers: [
+            { text: "Refactor code", correct: true },
+            { text: "Write a piece of code that will let", correct: true },
+            {
+              text: "Write a method for which a test will be created",
+              correct: false,
+            },
+            { text: "Use stubs", correct: false },
+          ],
+        },
+        {
+          question:
+            "What tests are done by client while he is assessing if a software meets his requirments and works properly?",
+          answers: [
+            { text: "System tests", correct: false },
+            { text: "Acceptance tests", correct: true },
+            { text: "Unit tests", correct: false },
+            { text: "Client tests", correct: false },
+          ],
+        },
+        {
+          question:
+            "Where should you implement the code to verify user privileges to be sure that user will not be able to omit them?",
+          answers: [
+            { text: "In GUI (user interface)", correct: false },
+            { text: "In database", correct: false },
+            {
+              text: "Inside a function that gives an access to data",
+              correct: true,
+            },
+            { text: "Inside the session", correct: false },
+          ],
+        },
+        {
+          question: "Input validation should be based on:",
+          answers: [
+            { text: "Whitelisting", correct: true },
+            { text: "Blacklisting", correct: false },
+            { text: "Redlisting", correct: false },
+            { text: "Greenlisting", correct: false },
+          ],
+        },
+        {
+          question: "What is Cross-Site Scripting (XSS)?",
+          answers: [
+            {
+              text: "A technique of attack that involves injecting untrusted data into a web application",
+              correct: true,
+            },
+            {
+              text: "The process of encrypting data in a database.",
+              correct: false,
+            },
+            {
+              text: "A method for user authorization in web applications.",
+              correct: false,
+            },
+            {
+              text: "A type of network attack that involves data interception.",
+              correct: false,
+            },
+          ],
+        },
+        {
+          question:
+            "Which technique should be used to prevent SQL Injection attacks?",
+          answers: [
+            { text: "Using simple passwords for easy recall.", correct: false },
+            {
+              text: "Employing non-standard ports for the database server.",
+              correct: false,
+            },
+            {
+              text: "Using prepared statements in SQL queries.",
+              correct: true,
+            },
+          ],
+        },
+        {
+          question:
+            "How much of the total internet traffic is generated automatically by malicious bots?",
+          answers: [
+            { text: "1/2", correct: false },
+            { text: "1/4", correct: false },
+            { text: "1/3", correct: true },
+            { text: "milionchuj", correct: false },
+          ],
+        },
+        {
+          question: "Expand the shortcut OWASP",
+          answers: [
+            {
+              text: "Organization for Web Application Security Protocols",
+              correct: false,
+            },
+            { text: "Online Web Access Security Program", correct: false },
+            {
+              text: "Operational Web Application Security Platform",
+              correct: false,
+            },
+            { text: "Open Web Application Security Project", correct: true },
+          ],
+        },
+        {
+          question:
+            "What happens when many users perform read and write operations on the same database table at the same time?",
+          answers: [
+            {
+              text: "execution of activities slows down as many locks are created",
+              correct: true,
+            },
+            { text: "critical error", correct: false },
+            {
+              text: "all data is written and read at the same time",
+              correct: false,
+            },
+            { text: "data is lost", correct: false },
+          ],
+        },
+        {
+          question:
+            "What is the primary purpose of a firewall in computer security?",
+          answers: [
+            {
+              text: "Blocking all incoming and outgoing traffic",
+              correct: false,
+            },
+            { text: "Monitoring network activity", correct: false },
+            { text: "Protecting against unauthorized access*", correct: true },
+            { text: "Enhancing internet speed", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which security principle involves dividing a network into smaller, isolated segments to contain potential security breaches?",
+          answers: [
+            { text: "Least privilege", correct: false },
+            { text: "Network segmentation", correct: true },
+            { text: "Two-factor authentication", correct: false },
+            { text: "Intrusion Prevention System (IPS)", correct: false },
+          ],
+        },
+        {
+          question: "What does the acronym HTTPS stand for?",
+          answers: [
+            { text: "Hypertext Transfer Protocol Secure", correct: true },
+            {
+              text: "High-Efficiency Transport Protocol for Secure Systems",
+              correct: false,
+            },
+            { text: "Help the trash protect shit", correct: false },
+            { text: "Hostile Environment Protection System", correct: false },
+          ],
+        },
+        {
+          question:
+            "What is the purpose of a security patch in the context of computer security?",
+          answers: [
+            { text: "Removing malware", correct: false },
+            {
+              text: "Fixing software vulnerabilities and improving security",
+              correct: true,
+            },
+            { text: "Enhancing system performance", correct: false },
+            { text: "Encrypting communication channels", correct: false },
+          ],
+        },
+        {
+          question:
+            "What type of attack involves flooding a network or server with excessive traffic to disrupt its normal operation?",
+          answers: [
+            { text: "Phishing", correct: false },
+            { text: "Denial of Service (DoS)", correct: true },
+            { text: "Man-in-the-Middle (MitM)", correct: false },
+            { text: "Cross-site Scripting (XSS)", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following is a common method to protect against SQL injection attacks?",
+          answers: [
+            { text: "Implementing strong password policies", correct: false },
+            { text: "Regularly updating antivirus software", correct: false },
+            {
+              text: "Input validation and parameterized queries",
+              correct: true,
+            },
+            { text: "Enabling MAC (Mandatory Access Control)", correct: false },
+          ],
+        },
+        {
+          question: "What is the primary purpose of antivirus software?",
+          answers: [
+            { text: "Encrypting files", correct: false },
+            { text: "Preventing unauthorized access", correct: false },
+            {
+              text: "Detecting and removing malicious software",
+              correct: true,
+            },
+            { text: "Managing network traffic", correct: false },
+          ],
+        },
+        {
+          question: "What is the purpose of a honey pot in computer security?",
+          answers: [
+            { text: "Monitoring network traffic", correct: false },
+            {
+              text: "Detecting and diverting malicious activity by mimicking vulnerable systems",
+              correct: true,
+            },
+            { text: "Encrypting stored data", correct: false },
+            { text: "Blocking access to malicious websites", correct: false },
+          ],
+        },
+        {
+          question: "What is the primary goal of a ransomware attack?",
+          answers: [
+            { text: "Stealing sensitive information", correct: false },
+            { text: "Disrupting network communication", correct: false },
+            {
+              text: "Encrypting files and demanding payment for their release",
+              correct: true,
+            },
+            { text: "Spreading across multiple computers", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which protocol is commonly used for secure communication over the web?",
+          answers: [
+            { text: "FTP", correct: false },
+            { text: "HTTP", correct: false },
+            { text: "HTTPS", correct: true },
+            { text: "SNMP", correct: false },
+          ],
+        },
+        {
+          question:
+            "What is the primary purpose of an intrusion prevention system (IPS)?",
+          answers: [
+            {
+              text: "Detecting and blocking unauthorized access attempts",
+              correct: true,
+            },
+            { text: "Encrypting stored data", correct: false },
+            { text: "Scanning for malware", correct: false },
+            { text: "Filtering spam emails", correct: false },
+          ],
+        },
+        {
+          question:
+            "What is the term for a security vulnerability that occurs when software does not properly validate input data, allowing attackers to execute arbitrary code?",
+          answers: [
+            { text: "Buffer overflow", correct: true },
+            { text: "Cross-site Scripting (XSS)", correct: true },
+            { text: "SQL injection", correct: true },
+            { text: "Man-in-the-Middle (MitM)", correct: false },
+          ],
+        },
+        {
+          question:
+            "What is the purpose of a security sandbox in computer security?",
+          answers: [
+            { text: "Blocking access to malicious websites", correct: false },
+            {
+              text: "Testing and isolating untrusted code to prevent potential harm",
+              correct: true,
+            },
+            {
+              text: "Encrypting communication between devices",
+              correct: false,
+            },
+            { text: "Scanning for phishing emails", correct: false },
+          ],
+        },
+        {
+          question:
+            "Which of the following is a common method for protecting sensitive information during transmission over a network?",
+          answers: [
+            { text: "MAC (Mandatory Access Control)", correct: false },
+            { text: "SSL/TLS encryption", correct: true },
+            { text: "Intrusion Detection System (IDS)", correct: false },
+            { text: "Two-factor authentication", correct: false },
+          ],
+        },
+        {
+          question:
+            "What is the primary purpose of a digital signature in secure communications?",
+          answers: [
+            { text: "Monitoring network traffic", correct: false },
+            { text: "Blocking malware", correct: false },
+            { text: "Authenticating the sender", correct: true },
+            { text: "Ensuring the integrity of the message", correct: true },
+          ],
+        },
+      ];
 
-        let selectedQuestions = [];
+      let selectedQuestions = [];
 
-        function shuffle(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
+      function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
         }
+      }
 
-        function startQuiz() {
-            const count = parseInt(document.getElementById('questionCount').value);
-            selectedQuestions = [...allQuestions];
-            shuffle(selectedQuestions);
-            selectedQuestions = selectedQuestions.slice(0, Math.min(count, allQuestions.length));
+      function startQuiz() {
+        const count = parseInt(document.getElementById("questionCount").value);
+        selectedQuestions = [...allQuestions];
+        shuffle(selectedQuestions);
+        selectedQuestions = selectedQuestions.slice(
+          0,
+          Math.min(count, allQuestions.length)
+        );
 
-            document.querySelector('.check-button').style.display = 'inline-block';
-            document.querySelector('.reset-button').style.display = 'inline-block';
-            document.querySelector('.setup').style.display = 'none';
-            generateQuiz();
-        }
+        document.querySelector(".check-button").style.display = "inline-block";
+        document.querySelector(".reset-button").style.display = "inline-block";
+        document.querySelector(".setup").style.display = "none";
+        generateQuiz();
+      }
 
-        function generateQuiz() {
-            const quizContainer = document.getElementById('quiz');
-            quizContainer.innerHTML = '';
-            document.getElementById('result').innerHTML = '';
+      function generateQuiz() {
+        const quizContainer = document.getElementById("quiz");
+        quizContainer.innerHTML = "";
+        document.getElementById("result").innerHTML = "";
 
-            selectedQuestions.forEach((q, index) => {
-                shuffle(q.answers);
-                const correctCount = q.answers.filter(a => a.correct).length;
-                const inputType = correctCount > 1 ? 'checkbox' : 'radio';
+        selectedQuestions.forEach((q, index) => {
+          shuffle(q.answers);
+          const correctCount = q.answers.filter((a) => a.correct).length;
+          const inputType = correctCount > 1 ? "checkbox" : "radio";
 
-                const questionDiv = document.createElement('div');
-                questionDiv.classList.add('question');
-                questionDiv.innerHTML = `<strong id="q${index}"> ${index + 1}. ${q.question}</strong>`;
+          const questionDiv = document.createElement("div");
+          questionDiv.classList.add("question");
+          questionDiv.innerHTML = `<strong id="q${index}"> ${index + 1}. ${
+            q.question
+          }</strong>`;
 
-                const answersDiv = document.createElement('div');
-                answersDiv.classList.add('answers');
+          const answersDiv = document.createElement("div");
+          answersDiv.classList.add("answers");
 
-                q.answers.forEach((a, answerIndex) => {
-                    answersDiv.innerHTML += `
+          q.answers.forEach((a, answerIndex) => {
+            answersDiv.innerHTML += `
             <label>
-              <input type="${inputType}" name="question${index}${inputType === 'checkbox' ? '[]' : ''}" value="${a.correct}"> ${a.text}
+              <input type="${inputType}" name="question${index}${
+              inputType === "checkbox" ? "[]" : ""
+            }" value="${a.correct}"> ${a.text}
             </label>
           `;
-                });
+          });
 
-                questionDiv.appendChild(answersDiv);
-                quizContainer.appendChild(questionDiv);
-            });
-        }
+          questionDiv.appendChild(answersDiv);
+          quizContainer.appendChild(questionDiv);
+        });
+      }
 
-        function checkAnswers() {
-            const answers = document.querySelectorAll('.answers');
-            let totalScore = 0;
+      function checkAnswers() {
+        const answers = document.querySelectorAll(".answers");
+        let totalScore = 0;
 
-            answers.forEach((answerBlock, index) => {
-                const inputs = answerBlock.querySelectorAll('input');
-                let correctAnswers = 0;
-                let correctSelected = 0;
-                let wrongSelected = 0;
+        answers.forEach((answerBlock, index) => {
+          const inputs = answerBlock.querySelectorAll("input");
+          let correctAnswers = 0;
+          let correctSelected = 0;
+          let wrongSelected = 0;
 
-                inputs.forEach(input => {
-                    if (input.value === 'true') correctAnswers++;
-                });
+          inputs.forEach((input) => {
+            if (input.value === "true") correctAnswers++;
+          });
 
-                inputs.forEach(input => {
-                    const label = input.parentElement;
-                    if (input.value === 'true') label.classList.add('correct');
-                    if (input.checked && input.value === 'true') correctSelected++;
-                    if (input.checked && input.value === 'false') {
-                        label.classList.add('incorrect');
-                        wrongSelected++;
-                    }
-                });
+          inputs.forEach((input) => {
+            const label = input.parentElement;
+            if (input.value === "true") label.classList.add("correct");
+            if (input.checked && input.value === "true") correctSelected++;
+            if (input.checked && input.value === "false") {
+              label.classList.add("incorrect");
+              wrongSelected++;
+            }
+          });
 
-                let questionScore = (correctSelected / correctAnswers) - (wrongSelected / correctAnswers);
-                questionScore = Math.max(0, questionScore);
-                totalScore += questionScore;
+          let questionScore =
+            correctSelected / correctAnswers - wrongSelected / correctAnswers;
+          questionScore = Math.max(0, questionScore);
+          totalScore += questionScore;
 
-                // Dodajemy punkty przy pytaniu
-                const questionLabel = document.getElementById(`q${index}`);
-                questionLabel.innerHTML += ` [${questionScore.toFixed(2)} pkt]`;
-            });
+          // Dodajemy punkty przy pytaniu
+          const questionLabel = document.getElementById(`q${index}`);
+          questionLabel.innerHTML += ` [${questionScore.toFixed(2)} pkt]`;
+        });
 
-            document.getElementById('result').innerHTML = `Twój wynik: ${totalScore.toFixed(2)} / ${selectedQuestions.length}`;
-            document.getElementById('result').scrollIntoView({ behavior: 'smooth' });
-        }
+        document.getElementById(
+          "result"
+        ).innerHTML = `Twój wynik: ${totalScore.toFixed(2)} / ${
+          selectedQuestions.length
+        }`;
+        document
+          .getElementById("result")
+          .scrollIntoView({ behavior: "smooth" });
+      }
 
-        function resetQuiz() {
-            document.querySelector('.setup').style.display = 'block';
-            document.querySelector('.check-button').style.display = 'none';
-            document.querySelector('.reset-button').style.display = 'none';
-            document.getElementById('quiz').innerHTML = '';
-            document.getElementById('result').innerHTML = '';
-        }
+      function resetQuiz() {
+        document.querySelector(".setup").style.display = "block";
+        document.querySelector(".check-button").style.display = "none";
+        document.querySelector(".reset-button").style.display = "none";
+        document.getElementById("quiz").innerHTML = "";
+        document.getElementById("result").innerHTML = "";
+      }
 
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-        }
+      function toggleDarkMode() {
+        document.body.classList.toggle("dark-mode");
+      }
     </script>
-</body>
-
+  </body>
 </html>
